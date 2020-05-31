@@ -17,7 +17,7 @@
   "gnetId": 11074,
   "graphTooltip": 0,
   "id": 3,
-  "iteration": 1590953879919,
+  "iteration": 1590955463812,
   "links": [
     {
       "asDropdown": false,
@@ -227,11 +227,11 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(node_memory_MemTotal_bytes{instance=~\"$node\"})",
+          "expr": "sum(node_memory_MemTotal_bytes{node=~\"$hostname\"})",
           "format": "time_series",
           "instant": true,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{node}}",
           "refId": "A",
           "step": 20
         }
@@ -303,33 +303,34 @@
       "pluginVersion": "7.0.1",
       "targets": [
         {
-          "expr": "100 - (avg(irate(node_cpu_seconds_total{instance=~\"$node\",mode=\"idle\"}[30m])) * 100)",
+          "expr": "100 - (avg(irate(node_cpu_seconds_total{node=~\"$hostname\",mode=\"idle\"}[30m])) * 100)",
           "instant": true,
           "legendFormat": "CPU Busy",
           "refId": "A"
         },
         {
-          "expr": "avg(irate(node_cpu_seconds_total{instance=~\"$node\",mode=\"iowait\"}[30m])) * 100",
+          "expr": "avg(irate(node_cpu_seconds_total{node=~\"$hostname\",mode=\"iowait\"}[30m])) * 100",
           "hide": true,
           "instant": true,
+          "interval": "",
           "legendFormat": "Busy Iowait",
           "refId": "C"
         },
         {
-          "expr": "(1 - (node_memory_MemAvailable_bytes{instance=~\"$node\"} / (node_memory_MemTotal_bytes{instance=~\"$node\"})))* 100",
+          "expr": "(1 - (node_memory_MemAvailable_bytes{node=~\"$hostname\"} / (node_memory_MemTotal_bytes{node=~\"$hostname\"})))* 100",
           "instant": true,
           "legendFormat": "Used RAM Memory",
           "refId": "B"
         },
         {
-          "expr": "100 - ((node_filesystem_avail_bytes{instance=~\"$node\",mountpoint=\"$maxmount\",fstype=~\"ext4|xfs\"} * 100) / node_filesystem_size_bytes {instance=~\"$node\",mountpoint=\"$maxmount\",fstype=~\"ext4|xfs\"})",
+          "expr": "100 - ((node_filesystem_avail_bytes{node=~\"$hostname\",mountpoint=\"$maxmount\",fstype=~\"ext4|xfs\"} * 100) / node_filesystem_size_bytes {node=~\"$hostname\",mountpoint=\"$maxmount\",fstype=~\"ext4|xfs\"})",
           "hide": false,
           "instant": true,
           "legendFormat": "Used Max Mount($maxmount)",
           "refId": "D"
         },
         {
-          "expr": "(1 - (node_memory_SwapFree_bytes{instance=~\"$node\"} / node_memory_SwapTotal_bytes{instance=~\"$node\"})) * 100",
+          "expr": "(1 - (node_memory_SwapFree_bytes{node=~\"$hostname\"} / node_memory_SwapTotal_bytes{node=~\"$hostname\"})) * 100",
           "instant": true,
           "legendFormat": "Used SWAP",
           "refId": "E"
@@ -501,7 +502,7 @@
       ],
       "targets": [
         {
-          "expr": "node_filesystem_size_bytes{instance=~'$node',fstype=~\"ext4|xfs\"}-0",
+          "expr": "node_filesystem_size_bytes{node=~\"$hostname\",fstype=~\"ext4|xfs\"}-0",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -510,7 +511,7 @@
           "refId": "C"
         },
         {
-          "expr": "node_filesystem_avail_bytes {instance=~'$node',fstype=~\"ext4|xfs\"}-0",
+          "expr": "node_filesystem_avail_bytes {node=~\"$hostname\",fstype=~\"ext4|xfs\"}-0",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -520,7 +521,7 @@
           "refId": "A"
         },
         {
-          "expr": "1-(node_filesystem_free_bytes{instance=~'$node',fstype=~\"ext4|xfs\"} / node_filesystem_size_bytes{instance=~'$node',fstype=~\"ext4|xfs\"})",
+          "expr": "1-(node_filesystem_free_bytes{node=~\"$hostname\",fstype=~\"ext4|xfs\"} / node_filesystem_size_bytes{node=~\"$hostname\",fstype=~\"ext4|xfs\"})",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -602,22 +603,22 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_filefd_allocated{instance=~\"$node\"}",
+          "expr": "node_filefd_allocated{node=~\"$hostname\"}",
           "format": "time_series",
           "instant": false,
           "interval": "",
           "intervalFactor": 5,
-          "legendFormat": "filefd_{{instance}}",
+          "legendFormat": "filefd_{{node}}",
           "refId": "B"
         },
         {
-          "expr": "irate(node_context_switches_total{instance=~\"$node\"}[30m])",
+          "expr": "irate(node_context_switches_total{node=~\"$hostname\"}[30m])",
           "intervalFactor": 5,
-          "legendFormat": "switches_{{instance}}",
+          "legendFormat": "switches_{{node}}",
           "refId": "A"
         },
         {
-          "expr": "node_filefd_maximum{instance=~\"$node\"}",
+          "expr": "node_filefd_maximum{node=~\"$hostname\"}",
           "hide": true,
           "refId": "C"
         }
@@ -733,7 +734,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(count(node_cpu_seconds_total{instance=~\"$node\", mode='system'}) by (cpu))",
+          "expr": "sum(count(node_cpu_seconds_total{node=~\"$hostname\", mode='system'}) by (cpu))",
           "format": "time_series",
           "instant": true,
           "intervalFactor": 1,
@@ -827,7 +828,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "avg(irate(node_cpu_seconds_total{instance=~\"$node\",mode=\"iowait\"}[30m])) * 100",
+          "expr": "avg(irate(node_cpu_seconds_total{node=~\"$hostname\",mode=\"iowait\"}[30m])) * 100",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -918,7 +919,7 @@
           "instant": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_1m",
+          "legendFormat": "{{node}}_1m",
           "metric": "",
           "refId": "A",
           "step": 20,
@@ -930,7 +931,7 @@
           "instant": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_5m",
+          "legendFormat": "{{node}}_5m",
           "refId": "B",
           "step": 20
         },
@@ -940,7 +941,7 @@
           "instant": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_15m",
+          "legendFormat": "{{node}}_15m",
           "refId": "C",
           "step": 20
         }
@@ -1064,34 +1065,34 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "avg(irate(node_cpu_seconds_total{node=~\"$hostname\",mode=\"system\"}[30m])) by (instance)",
+          "expr": "avg(irate(node_cpu_seconds_total{node=~\"$hostname\",mode=\"system\"}[30m])) by (node)",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_System",
+          "legendFormat": "{{node}}_System",
           "refId": "A",
           "step": 20
         },
         {
-          "expr": "avg(irate(node_cpu_seconds_total{node=~\"$hostname\",mode=\"user\"}[30m])) by (instance)",
+          "expr": "avg(irate(node_cpu_seconds_total{node=~\"$hostname\",mode=\"user\"}[30m])) by (node)",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_User",
+          "legendFormat": "{{node}}_User",
           "refId": "B",
           "step": 240
         },
         {
-          "expr": "avg(irate(node_cpu_seconds_total{node=~\"$hostname\",mode=\"iowait\"}[30m])) by (instance)",
+          "expr": "avg(irate(node_cpu_seconds_total{node=~\"$hostname\",mode=\"iowait\"}[30m])) by (node)",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_Iowait",
+          "legendFormat": "{{node}}_Iowait",
           "refId": "D",
           "step": 240
         },
@@ -1101,7 +1102,7 @@
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_Total",
+          "legendFormat": "{{node}}_Total",
           "refId": "F",
           "step": 240
         }
@@ -1215,7 +1216,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_{{device}}_receive",
+          "legendFormat": "{{node}}_{{device}}_receive",
           "refId": "A",
           "step": 4
         },
@@ -1224,7 +1225,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_{{device}}_transmit",
+          "legendFormat": "{{node}}_{{device}}_transmit",
           "refId": "B",
           "step": 4
         }
@@ -1328,17 +1329,17 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "1-(node_filesystem_free_bytes{instance=~'$node',fstype=~\"ext4|xfs\"} / node_filesystem_size_bytes{instance=~'$node',fstype=~\"ext4|xfs\"})",
+          "expr": "1-(node_filesystem_free_bytes{node=~\"$hostname\",fstype=~\"ext4|xfs\"} / node_filesystem_size_bytes{node=~\"$hostname\",fstype=~\"ext4|xfs\"})",
           "format": "time_series",
           "instant": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}：{{mountpoint}}",
+          "legendFormat": "{{node}}：{{mountpoint}}",
           "refId": "A"
         },
         {
-          "expr": "node_filesystem_files_free{instance=~'$node',fstype=~\"ext4|xfs\"} / node_filesystem_files{instance=~'$node',fstype=~\"ext4|xfs\"}",
+          "expr": "node_filesystem_files_free{node=~\"$hostname\",fstype=~\"ext4|xfs\"} / node_filesystem_files{node=~\"$hostname\",fstype=~\"ext4|xfs\"}",
           "hide": true,
-          "legendFormat": "Inodes：{{instance}}：{{mountpoint}}",
+          "legendFormat": "Inodes：{{node}}：{{mountpoint}}",
           "refId": "B"
         }
       ],
@@ -1454,31 +1455,31 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_memory_MemTotal_bytes{instance=~\"$node\"}",
+          "expr": "node_memory_MemTotal_bytes{node=~\"$hostname\"}",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_Total",
+          "legendFormat": "{{node}}_Total",
           "refId": "A",
           "step": 4
         },
         {
-          "expr": "node_memory_MemTotal_bytes{instance=~\"$node\"} - node_memory_MemAvailable_bytes{instance=~\"$node\"}",
+          "expr": "node_memory_MemTotal_bytes{node=~\"$hostname\"} - node_memory_MemAvailable_bytes{node=~\"$hostname\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_Used",
+          "legendFormat": "{{node}}_Used",
           "refId": "B",
           "step": 4
         },
         {
-          "expr": "node_memory_MemAvailable_bytes{instance=~\"$node\"}",
+          "expr": "node_memory_MemAvailable_bytes{node=~\"$hostname\"}",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_Avaliable",
+          "legendFormat": "{{node}}_Avaliable",
           "refId": "F",
           "step": 4
         }
@@ -1595,10 +1596,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_disk_io_time_seconds_total{instance=~\"$node\"}[30m])",
+          "expr": "irate(node_disk_io_time_seconds_total{node=~\"$hostname\"}[30m])",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_{{device}}_ IO time",
+          "legendFormat": "{{node}}_{{device}}_ IO time",
           "refId": "C"
         }
       ],
@@ -1706,21 +1707,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_disk_reads_completed_total{instance=~\"$node\"}[30m])",
+          "expr": "irate(node_disk_reads_completed_total{node=~\"$hostname\"}[30m])",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_{{device}}_Reads completed",
+          "legendFormat": "{{node}}_{{device}}_Reads completed",
           "refId": "A",
           "step": 10
         },
         {
-          "expr": "irate(node_disk_writes_completed_total{instance=~\"$node\"}[30m])",
+          "expr": "irate(node_disk_writes_completed_total{node=~\"$hostname\"}[30m])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_{{device}}_Writes completed",
+          "legendFormat": "{{node}}_{{device}}_Writes completed",
           "refId": "B",
           "step": 10
         }
@@ -1829,20 +1830,20 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_disk_read_bytes_total{instance=~\"$node\"}[30m])",
+          "expr": "irate(node_disk_read_bytes_total{node=~\"$hostname\"}[30m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_{{device}}_Read bytes",
+          "legendFormat": "{{node}}_{{device}}_Read bytes",
           "refId": "A",
           "step": 10
         },
         {
-          "expr": "irate(node_disk_written_bytes_total{instance=~\"$node\"}[30m])",
+          "expr": "irate(node_disk_written_bytes_total{node=~\"$hostname\"}[30m])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_{{device}}_Written bytes",
+          "legendFormat": "{{node}}_{{device}}_Written bytes",
           "refId": "B",
           "step": 10
         }
@@ -1951,22 +1952,22 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_disk_read_time_seconds_total{instance=~\"$node\"}[30m]) / irate(node_disk_reads_completed_total{instance=~\"$node\"}[30m])",
+          "expr": "irate(node_disk_read_time_seconds_total{node=~\"$hostname\"}[30m]) / irate(node_disk_reads_completed_total{node=~\"$hostname\"}[30m])",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_{{device}}_Read time",
+          "legendFormat": "{{node}}_{{device}}_Read time",
           "refId": "B"
         },
         {
-          "expr": "irate(node_disk_write_time_seconds_total{instance=~\"$node\"}[30m]) / irate(node_disk_writes_completed_total{instance=~\"$node\"}[30m])",
+          "expr": "irate(node_disk_write_time_seconds_total{node=~\"$hostname\"}[30m]) / irate(node_disk_writes_completed_total{node=~\"$hostname\"}[30m])",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_{{device}}_Write time",
+          "legendFormat": "{{node}}_{{device}}_Write time",
           "refId": "C"
         }
       ],
@@ -2076,36 +2077,36 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_netstat_Tcp_CurrEstab{instance=~'$node'}",
+          "expr": "node_netstat_Tcp_CurrEstab{node=~\"$hostname\"}",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_CurrEstab",
+          "legendFormat": "{{node}}_CurrEstab",
           "refId": "A",
           "step": 20
         },
         {
-          "expr": "node_sockstat_TCP_tw{instance=~'$node'}",
+          "expr": "node_sockstat_TCP_tw{node=~\"$hostname\"}",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}_TCP_tw",
+          "legendFormat": "{{node}}_TCP_tw",
           "refId": "D"
         },
         {
-          "expr": "node_sockstat_sockets_used{instance=~'$node'}",
-          "legendFormat": "{{instance}}_Sockets_used",
+          "expr": "node_sockstat_sockets_used{node=~\"$hostname\"}",
+          "legendFormat": "{{node}}_Sockets_used",
           "refId": "B"
         },
         {
-          "expr": "node_sockstat_UDP_inuse{instance=~'$node'}",
-          "legendFormat": "{{instance}}_UDP_inuse",
+          "expr": "node_sockstat_UDP_inuse{node=~\"$hostname\"}",
+          "legendFormat": "{{node}}_UDP_inuse",
           "refId": "C"
         },
         {
-          "expr": "node_sockstat_TCP_alloc{instance=~'$node'}",
-          "legendFormat": "{{instance}}_TCP_alloc",
+          "expr": "node_sockstat_TCP_alloc{node=~\"$hostname\"}",
+          "legendFormat": "{{node}}_TCP_alloc",
           "refId": "E"
         }
       ],
@@ -2206,10 +2207,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_hwmon_temp_celsius{instance=~'$node'}",
+          "expr": "node_hwmon_temp_celsius{node=~\"$hostname\"}",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 10,
-          "legendFormat": "{{instance}}_{{chip}}_{{sensor}}",
+          "legendFormat": "{{node}}_{{chip}}_{{sensor}}",
           "refId": "A"
         }
       ],
@@ -2294,9 +2296,11 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "All",
-          "value": "$__all"
+          "value": [
+            "$__all"
+          ]
         },
         "datasource": "Prometheus",
         "definition": "label_values(kube_node_info{job=~\"$job\"}, node)",
@@ -2348,10 +2352,9 @@
       {
         "allValue": null,
         "current": {
-          "isNone": true,
           "selected": false,
-          "text": "None",
-          "value": ""
+          "text": "/var",
+          "value": "/var"
         },
         "datasource": "Prometheus",
         "definition": "",
@@ -2361,7 +2364,7 @@
         "multi": false,
         "name": "maxmount",
         "options": [],
-        "query": "query_result(topk(1,sort_desc (max(node_filesystem_size_bytes{instance=~'$node',fstype=~\"ext4|xfs\"}) by (mountpoint))))",
+        "query": "query_result(topk(1,sort_desc (max(node_filesystem_size_bytes{node=~\"$hostname\",fstype=~\"ext4|xfs\"}) by (mountpoint))))",
         "refresh": 2,
         "regex": "/.*\\\"(.*)\\\".*/",
         "skipUrlSync": false,
@@ -2433,8 +2436,8 @@
     ]
   },
   "time": {
-    "from": "now-5m",
-    "to": "now"
+    "from": "2020-05-31T19:44:45.488Z",
+    "to": "2020-05-31T19:54:45.488Z"
   },
   "timepicker": {
     "now": true,
@@ -2464,5 +2467,5 @@
   "timezone": "browser",
   "title": "1  Node Exporter for Prometheus Dashboard EN v20191102",
   "uid": "hb7fSE0Zz",
-  "version": 6
+  "version": 10
 }
