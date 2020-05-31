@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+  creationTimestamp: "2020-02-26T07:17:59Z"
+  labels:
+    app: grafana
+    service: grafana
+  name: grafana
+  namespace: istio-system
+  resourceVersion: "963557"
+  selfLink: /api/v1/namespaces/istio-system/endpoints/grafana
+  uid: 1e16fb71-5868-11ea-953e-ba0d1c66edaa
+subsets:
+- addresses:
+  - ip: 10.244.2.15
+    nodeName: aks-agentpool-20139558-vmss000000
+    targetRef:
+      kind: Pod
+      name: grafana-54db7fcb58-j75l4
+      namespace: istio-system
+      resourceVersion: "344217"
+      uid: 1c840fd1-5868-11ea-953e-ba0d1c66edaa
+  ports:
+  - name: grafana-port
+    port: 3000
+    protocol: TCP
