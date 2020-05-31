@@ -17,7 +17,7 @@
   "gnetId": 11074,
   "graphTooltip": 0,
   "id": 3,
-  "iteration": 1590955463812,
+  "iteration": 1590965311431,
   "links": [
     {
       "asDropdown": false,
@@ -1097,7 +1097,7 @@
           "step": 240
         },
         {
-          "expr": "1 - avg(irate(node_cpu_seconds_total{node=~\"$hostname\",mode=\"idle\"}[30m])) by (instance)",
+          "expr": "1 - avg(irate(node_cpu_seconds_total{node=~\"$hostname\",mode=\"idle\"}[30m])) by (node)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2257,7 +2257,7 @@
       }
     }
   ],
-  "refresh": false,
+  "refresh": "10s",
   "schemaVersion": 25,
   "style": "dark",
   "tags": [
@@ -2353,8 +2353,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "/var",
-          "value": "/var"
+          "text": "/home",
+          "value": "/home"
         },
         "datasource": "Prometheus",
         "definition": "",
@@ -2436,8 +2436,8 @@
     ]
   },
   "time": {
-    "from": "2020-05-31T19:44:45.488Z",
-    "to": "2020-05-31T19:54:45.488Z"
+    "from": "now-5m",
+    "to": "now"
   },
   "timepicker": {
     "now": true,
