@@ -68,7 +68,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "avg(irate(container_cpu_usage_seconds_total{pod_name!=\"\", pod_name=~\"[[pod_name]].*\", namespace=~\"[[namespace]].*\"}[5m]) * 100) by (pod_name)",
+          "expr": "avg(irate(container_cpu_usage_seconds_total{pod!=\"\", pod=~\"[[pod]].*\", namespace=~\"[[namespace]].*\"}[5m]) * 100) by (pod)",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -165,7 +165,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum (container_memory_working_set_bytes{pod_name!=\"\", pod_name=~\"[[pod_name]].*\", namespace=~\"[[namespace]].*\"}) by (pod_name)",
+          "expr": "sum (container_memory_working_set_bytes{pod!=\"\", pod=~\"[[pod]].*\", namespace=~\"[[namespace]].*\"}) by (pod)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -452,7 +452,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "avg(irate(container_network_receive_bytes_total{pod_name=~\"[[pod_name]].*\", namespace=~\"[[namespace]].*\"}[5m])) by (pod_name)",
+          "expr": "avg(irate(container_network_receive_bytes_total{pod=~\"[[pod]].*\", namespace=~\"[[namespace]].*\"}[5m])) by (pod)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -547,7 +547,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "avg(irate(container_network_transmit_bytes_total{pod_name=~\"[[pod_name]].*\", namespace=~\"[[namespace]].*\"}[5m])) by (pod_name)",
+          "expr": "avg(irate(container_network_transmit_bytes_total{pod=~\"[[pod]].*\", namespace=~\"[[namespace]].*\"}[5m])) by (pod)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -604,19 +604,20 @@
       {
         "allValue": null,
         "current": {
-          "text": "default",
-          "value": "default"
+          "selected": true,
+          "text": "monitoring",
+          "value": "monitoring"
         },
         "datasource": "Prometheus",
-        "definition": "",
+        "definition": "label_values(kube_namespace_labels, exported_namespace)",
         "hide": 0,
         "includeAll": false,
-        "label": null,
+        "label": "Namespace",
         "multi": false,
         "name": "namespace",
         "options": [],
-        "query": "",
-        "refresh": 0,
+        "query": "label_values(kube_namespace_labels, exported_namespace)",
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
@@ -627,23 +628,30 @@
         "useTags": false
       },
       {
+        "allValue": null,
         "current": {
-          "text": ".*",
-          "value": ".*"
+          "selected": true,
+          "text": "prometheus-deployment-7c94c888b4-zkwgx",
+          "value": "prometheus-deployment-7c94c888b4-zkwgx"
         },
+        "datasource": "Prometheus",
+        "definition": "label_values(kube_pod_container_info{exported_namespace=\"$namespace\"}, pod)",
         "hide": 0,
-        "label": null,
-        "name": "pod_name",
-        "options": [
-          {
-            "selected": true,
-            "text": "",
-            "value": ""
-          }
-        ],
-        "query": "",
+        "includeAll": false,
+        "label": "Pod",
+        "multi": false,
+        "name": "pod",
+        "options": [],
+        "query": "label_values(kube_pod_container_info{exported_namespace=\"$namespace\"}, pod)",
+        "refresh": 1,
+        "regex": "",
         "skipUrlSync": false,
-        "type": "constant"
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       }
     ]
   },
@@ -663,20 +671,8 @@
       "2h",
       "1d"
     ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "",
-  "title": "Kubernetes Pods (Prometheus)",
-  "uid": "-7mPcYniz",
-  "version": 1
+  "title": "Pod All Dashborad"
 }
