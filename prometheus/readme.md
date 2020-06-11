@@ -1,4 +1,4 @@
-## Necesarry Metrics and How to Monitor These by Prometheus
+## Necessary Metrics and How to Monitor These by Prometheus
 
 | Necesarry Metrics   | How to Monitor These by Prometheus |
 | ------------------- | ---------------------------------- |
