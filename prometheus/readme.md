@@ -12,6 +12,34 @@
 
 #### USE
 
+#### Istio 自体
+
+- Control plane(istiod, istio-pilot)
+  - USE
+    - CPU
+    - Memory
+    - Concurrencty
+  - RED
+    - Config pushes count
+    - Config pushes duration
+    - Config pushes errors
+- Data plane(Envory proxies)
+  - USE
+    - CPU
+    - Memory
+    - Concurrencty
+  - RED
+    - Requests count
+    - Requests error counts
+    - Requests duration
+  - 全サイドカーの Overview を一つのダッシュボードで確認するのが良い
+    - クラスタ内のサイドカーの数
+    - サイドカーあたりの平均 CPU 使用率
+    - サイドカーあたりの平均 Memory 使用率
+    - 外れ値の Heatmap
+
+#### kubernetes 自体
+
 ##### Node
 
 ##### Pod
@@ -21,10 +49,13 @@
   - requests
   - limits
   - throttled seconds
+  - Overcommitted State かどうかわかるメトリクス？
 - Memory
+  - usage
+  - requests
+  - limits
 - Network
 - Disk
-- Throttling
 
 ##### Container
 
