@@ -1,10 +1,32 @@
 ## Necessary Metrics and How to Monitor These by Prometheus
 
-| Necesarry Metrics   | How to Monitor These by Prometheus |
-| ------------------- | ---------------------------------- |
-| OS Resouce of Pods  | cAdvisor                           |
-|                     | kube-state-metrics                 |
-| OS Resouce of Nodes | node-exporter                      |
+| Necesarry Metrics   | How to Monitor These by Prometheus | Document Link                                                             |
+| ------------------- | ---------------------------------- | ------------------------------------------------------------------------- |
+| OS Resouce of Pods  | cAdvisor                           | https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md |
+|                     | kube-state-metrics                 |                                                                           |
+| OS Resouce of Nodes | node-exporter                      |                                                                           |
+
+### 監視項目
+
+#### RED
+
+#### USE
+
+##### Node
+
+##### Pod
+
+- CPU
+  - usage
+  - requests
+  - limits
+  - throttled seconds
+- Memory
+- Network
+- Disk
+- Throttling
+
+##### Container
 
 ### cAdvisor
 
