@@ -128,3 +128,7 @@ __meta_kubernetes_service_type: The type of the service.
 
 - メモリを食うので VictoriaMetrics とかで工夫するかメトリクスを減らす必要がある
 - バージョンによって設定項目が変わってしまうので、設定を Code として git 上に残していくことが重要
+
+## Jmeter との連携
+
+https://github.com/johrstrom/jmeter-prometheus-plugin
