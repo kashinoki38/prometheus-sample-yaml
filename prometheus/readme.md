@@ -131,4 +131,4 @@ __meta_kubernetes_service_type: The type of the service.
 
 ## Jmeter との連携
 
-https://github.com/johrstrom/jmeter-prometheus-plugin
+https://github.com/kubernauts/jmeter-operator

@@ -11,3 +11,4 @@
   - https://grafana.com/grafana/dashboards/7639
 - Istio-Workload-Dashboard.json
   - https://grafana.com/grafana/dashboards/7630
+- Jmeter-Metrics-Dashboard
