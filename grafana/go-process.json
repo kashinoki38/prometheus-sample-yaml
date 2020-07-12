@@ -79,19 +79,19 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "process_resident_memory_bytes{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}",
+          "expr": "process_resident_memory_bytes{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}} - resident",
+          "legendFormat": "{{pod_name}} - resident",
           "metric": "process_resident_memory_bytes",
           "refId": "A",
           "step": 4
         },
         {
-          "expr": "process_virtual_memory_bytes{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}",
+          "expr": "process_virtual_memory_bytes{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}} - virtual",
+          "legendFormat": "{{pod_name}} - virtual",
           "metric": "process_virtual_memory_bytes",
           "refId": "B",
           "step": 4
@@ -197,19 +197,19 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(process_resident_memory_bytes{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}[$interval])",
+          "expr": "rate(process_resident_memory_bytes{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}[$interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}} - resident",
+          "legendFormat": "{{pod_name}} - resident",
           "metric": "process_resident_memory_bytes",
           "refId": "A",
           "step": 4
         },
         {
-          "expr": "deriv(process_virtual_memory_bytes{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}[$interval])",
+          "expr": "deriv(process_virtual_memory_bytes{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}[$interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}} - virtual",
+          "legendFormat": "{{pod_name}} - virtual",
           "metric": "process_virtual_memory_bytes",
           "refId": "B",
           "step": 4
@@ -315,38 +315,38 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "go_memstats_alloc_bytes{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}",
+          "expr": "go_memstats_alloc_bytes{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}} - bytes allocated",
+          "legendFormat": "{{pod_name}} - bytes allocated",
           "metric": "go_memstats_alloc_bytes",
           "refId": "A",
           "step": 4
         },
         {
-          "expr": "rate(go_memstats_alloc_bytes_total{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}[30s])",
+          "expr": "rate(go_memstats_alloc_bytes_total{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}[30s])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}} - alloc rate",
+          "legendFormat": "{{pod_name}} - alloc rate",
           "metric": "go_memstats_alloc_bytes_total",
           "refId": "B",
           "step": 4
         },
         {
-          "expr": "go_memstats_stack_inuse_bytes{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}",
+          "expr": "go_memstats_stack_inuse_bytes{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}} - stack inuse",
+          "legendFormat": "{{pod_name}} - stack inuse",
           "metric": "go_memstats_stack_inuse_bytes",
           "refId": "C",
           "step": 4
         },
         {
-          "expr": "go_memstats_heap_inuse_bytes{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}",
+          "expr": "go_memstats_heap_inuse_bytes{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
-          "legendFormat": "{{pod}} - heap inuse",
+          "legendFormat": "{{pod_name}} - heap inuse",
           "metric": "go_memstats_heap_inuse_bytes",
           "refId": "D",
           "step": 4
@@ -452,38 +452,38 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "deriv(go_memstats_alloc_bytes{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}[$interval])",
+          "expr": "deriv(go_memstats_alloc_bytes{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}[$interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}} - bytes allocated",
+          "legendFormat": "{{pod_name}} - bytes allocated",
           "metric": "go_memstats_alloc_bytes",
           "refId": "A",
           "step": 4
         },
         {
-          "expr": "rate(go_memstats_alloc_bytes_total{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}[$interval])",
+          "expr": "rate(go_memstats_alloc_bytes_total{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}[$interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}} - alloc rate",
+          "legendFormat": "{{pod_name}} - alloc rate",
           "metric": "go_memstats_alloc_bytes_total",
           "refId": "B",
           "step": 4
         },
         {
-          "expr": "deriv(go_memstats_stack_inuse_bytes{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}[$interval])",
+          "expr": "deriv(go_memstats_stack_inuse_bytes{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}[$interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}} - stack inuse",
+          "legendFormat": "{{pod_name}} - stack inuse",
           "metric": "go_memstats_stack_inuse_bytes",
           "refId": "C",
           "step": 4
         },
         {
-          "expr": "deriv(go_memstats_heap_inuse_bytes{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}[$interval])",
+          "expr": "deriv(go_memstats_heap_inuse_bytes{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}[$interval])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
-          "legendFormat": "{{pod}} - heap inuse",
+          "legendFormat": "{{pod_name}} - heap inuse",
           "metric": "go_memstats_heap_inuse_bytes",
           "refId": "D",
           "step": 4
@@ -584,10 +584,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "process_open_fds{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}",
+          "expr": "process_open_fds{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}}",
+          "legendFormat": "{{pod_name}}",
           "metric": "process_open_fds",
           "refId": "A",
           "step": 4
@@ -688,10 +688,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "deriv(process_open_fds{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}[$interval])",
+          "expr": "deriv(process_open_fds{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}[$interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}}",
+          "legendFormat": "{{pod_name}}",
           "metric": "process_open_fds",
           "refId": "A",
           "step": 4
@@ -792,10 +792,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "go_goroutines{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}",
+          "expr": "go_goroutines{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}}",
+          "legendFormat": "{{pod_name}}",
           "metric": "go_goroutines",
           "refId": "A",
           "step": 4
@@ -896,10 +896,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "go_gc_duration_seconds{namespace=~\"^($namespace)$\",pod=~\"^($pod)$\"}",
+          "expr": "go_gc_duration_seconds{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod}}: {{quantile}}",
+          "legendFormat": "{{pod_name}}: {{quantile}}",
           "metric": "go_gc_duration_seconds",
           "refId": "A",
           "step": 4
