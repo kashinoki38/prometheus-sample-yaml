@@ -17,7 +17,7 @@
   "gnetId": 6671,
   "graphTooltip": 0,
   "id": 17,
-  "iteration": 1594589984886,
+  "iteration": 1594603401467,
   "links": [],
   "panels": [
     {
@@ -958,8 +958,10 @@
         "allValue": ".*",
         "current": {
           "selected": false,
-          "text": "All",
-          "value": "$__all"
+          "text": "sock-shop",
+          "value": [
+            "sock-shop"
+          ]
         },
         "datasource": "Prometheus",
         "definition": "",
@@ -983,20 +985,23 @@
       {
         "allValue": ".*",
         "current": {
-          "selected": false,
+          "selected": true,
+          "tags": [],
           "text": "All",
-          "value": "$__all"
+          "value": [
+            "$__all"
+          ]
         },
         "datasource": "Prometheus",
-        "definition": "",
+        "definition": "label_values(process_resident_memory_bytes{namespace=\"$namespace\"}, pod_name)",
         "hide": 0,
         "includeAll": true,
         "label": null,
         "multi": true,
         "name": "pod",
         "options": [],
-        "query": "label_values(process_resident_memory_bytes, pod)",
-        "refresh": 2,
+        "query": "label_values(process_resident_memory_bytes{namespace=\"$namespace\"}, pod_name)",
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
@@ -1086,5 +1091,5 @@
   "timezone": "browser",
   "title": "Go Processes",
   "uid": "ypFZFgvmz",
-  "version": 1
+  "version": 5
 }
