@@ -16,8 +16,8 @@
   "editable": true,
   "gnetId": 7727,
   "graphTooltip": 0,
-  "id": 14,
-  "iteration": 1594588153343,
+  "id": 16,
+  "iteration": 1594603185020,
   "links": [],
   "panels": [
     {
@@ -1556,12 +1556,14 @@
         "overrides": []
       },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 38
       },
+      "hiddenSeries": false,
       "id": 5,
       "legend": {
         "alignAsTable": true,
@@ -1578,6 +1580,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1600,6 +1605,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "GC time / 1 min. rate",
       "tooltip": {
@@ -1651,12 +1657,14 @@
         "overrides": []
       },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 38
       },
+      "hiddenSeries": false,
       "id": 4,
       "legend": {
         "alignAsTable": true,
@@ -1672,6 +1680,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1694,6 +1705,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Class loading",
       "tooltip": {
@@ -1745,7 +1757,7 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "sock-shop",
           "value": "sock-shop"
         },
@@ -1808,15 +1820,18 @@
         "allValue": ".*",
         "current": {
           "selected": true,
+          "tags": [],
           "text": "All",
-          "value": "$__all"
+          "value": [
+            "$__all"
+          ]
         },
         "datasource": "Prometheus",
         "definition": "label_values(jvm_info{namespace=\"$namespace\"},pod_name)",
         "hide": 0,
         "includeAll": true,
         "label": "pod",
-        "multi": false,
+        "multi": true,
         "name": "pod",
         "options": [],
         "query": "label_values(jvm_info{namespace=\"$namespace\"},pod_name)",
@@ -1863,5 +1878,5 @@
   "timezone": "",
   "title": "JMX prometheus exporter",
   "uid": "nshAi8pmz",
-  "version": 12
+  "version": 3
 }
