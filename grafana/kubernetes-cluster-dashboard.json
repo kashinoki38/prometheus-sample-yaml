@@ -17,7 +17,7 @@
   "gnetId": 6417,
   "graphTooltip": 1,
   "id": 16,
-  "iteration": 1595762611462,
+  "iteration": 1596090468355,
   "links": [
     {
       "asDropdown": true,
@@ -1543,7 +1543,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum (kube_node_status_condition{status=\"true\"}) / sum(kube_node_info) * 100",
+          "expr": "(sum(kube_node_info) - sum(kube_node_spec_unschedulable)) / sum(kube_node_info) * 100",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1553,7 +1553,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Cluster Availability",
+      "title": "Node Availability",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -2761,9 +2761,9 @@
       },
       {
         "current": {
-          "selected": true,
-          "text": ".*",
-          "value": ".*"
+          "selected": false,
+          "text": "sock-shop",
+          "value": "sock-shop"
         },
         "hide": 0,
         "label": null,
@@ -2783,7 +2783,7 @@
     ]
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
@@ -2813,5 +2813,5 @@
   "timezone": "browser",
   "title": "Kubernetes Cluster (Prometheus)",
   "uid": "4XuMd2Iiz",
-  "version": 32
+  "version": 35
 }
