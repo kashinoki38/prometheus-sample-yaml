@@ -1,3 +1,11 @@
+## Precondition
+
+- Kubernetes : v1.16.11-gke.5
+- Istio : 1.4.10-gke.4
+- Prometheus : prom/prometheus:v2.18.0
+- Grafana : grafana/grafana:7.0.1
+- NodeExporter : prom/node-exporter:v1.0.0
+
 ## Reference of Garafana Dashboard
 
 - node-exporter.json : 1 Node Exporter for Prometheus Dashboard EN
