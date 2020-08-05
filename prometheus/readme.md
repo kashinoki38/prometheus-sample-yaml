@@ -9,7 +9,8 @@
 ### リソース監視（USE）http://www.brendangregg.com/usemethod.html
 
 - Utilization : 使用率 E.g. CPU 使用率
-- Saturation : 飽和度, どれくらいキューに詰まっているか  E.g. ロードアベレージ
+- Saturation : 飽和度, どれくらいキューに詰まっているか  
+  E.g. ロードアベレージ
 - Errors : エラーイベントの数
 
 ## 必要な Exporter
