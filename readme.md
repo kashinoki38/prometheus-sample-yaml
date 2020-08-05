@@ -1,3 +1,20 @@
+# 監視すべき項目
+
+## USE x RED
+
+### サービス監視（RED）
+
+- Rate : =Throughput, 秒間リクエスト数, 秒間 PV 数
+- Error Rate : エラー率, 5xx とか
+- Duration : =ResponseTime, %ile 評価が一般的
+
+### リソース監視（USE）http://www.brendangregg.com/usemethod.html
+
+- Utilization : 使用率 E.g. CPU 使用率
+- Saturation : 飽和度, どれくらいキューに詰まっているか  
+  E.g. ロードアベレージ
+- Errors : エラーイベントの数
+
 # 必要メトリクス一覧
 
 ## サービス監視（RED）
