@@ -17,7 +17,7 @@
   "gnetId": 10518,
   "graphTooltip": 0,
   "id": 25,
-  "iteration": 1596424048172,
+  "iteration": 1596656635513,
   "links": [],
   "panels": [
     {
@@ -801,7 +801,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 36
+            "y": 25
           },
           "hiddenSeries": false,
           "id": 115,
@@ -840,8 +840,20 @@
               "hide": false,
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "{{pod}}",
+              "legendFormat": "Usage: {{pod}}",
               "refId": "A"
+            },
+            {
+              "expr": "sum(kube_pod_container_resource_limits_cpu_cores{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
+              "interval": "",
+              "legendFormat": "Limits: {{pod}}",
+              "refId": "B"
+            },
+            {
+              "expr": "sum(kube_pod_container_resource_requests_cpu_cores{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
+              "interval": "",
+              "legendFormat": "Requests: {{pod}}",
+              "refId": "C"
             }
           ],
           "thresholds": [],
@@ -903,7 +915,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 44
+            "y": 33
           },
           "hiddenSeries": false,
           "id": 154,
@@ -1000,7 +1012,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 53
+            "y": 42
           },
           "hiddenSeries": false,
           "id": 189,
@@ -1417,7 +1429,7 @@
           "fillGradient": 0,
           "gridPos": {
             "h": 9,
-            "w": 12,
+            "w": 24,
             "x": 0,
             "y": 43
           },
@@ -1449,135 +1461,9 @@
           "repeatDirection": "h",
           "scopedVars": {
             "container": {
-              "selected": false,
-              "text": "istio-proxy",
-              "value": "istio-proxy"
-            }
-          },
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum(kube_pod_container_resource_requests_cpu_cores{exported_namespace=~\"$namespace.*\",container!=\"POD\",pod=~\"$pod.*\",container=~\"$container.*\"})",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "Requested",
-              "refId": "A"
-            },
-            {
-              "expr": "sum(kube_pod_container_resource_limits_cpu_cores{exported_namespace=~\"$namespace.*\",container!=\"POD\",pod=~\"$pod.*\",container=~\"$container.*\"})",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "Limits",
-              "refId": "B"
-            },
-            {
-              "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=~\"$namespace.*\",container!=\"POD\",container!=\"\",pod!=\"\", pod=~\"$pod.*\",container=~\"$container.*\"}[1m]))",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "Usage",
-              "refId": "C"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "CPU: $container",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "Prometheus",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "fill": 1,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 9,
-            "w": 12,
-            "x": 12,
-            "y": 43
-          },
-          "hiddenSeries": false,
-          "id": 207,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": true,
-            "max": true,
-            "min": true,
-            "rightSide": false,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "options": {
-            "dataLinks": []
-          },
-          "percentage": false,
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "repeat": null,
-          "repeatDirection": "h",
-          "repeatIteration": 1596423680808,
-          "repeatPanelId": 3,
-          "scopedVars": {
-            "container": {
-              "selected": false,
-              "text": "shipping",
-              "value": "shipping"
+              "selected": true,
+              "text": "prometheus",
+              "value": "prometheus"
             }
           },
           "seriesOverrides": [],
@@ -1667,7 +1553,7 @@
           "fillGradient": 0,
           "gridPos": {
             "h": 6,
-            "w": 12,
+            "w": 24,
             "x": 0,
             "y": 52
           },
@@ -1698,9 +1584,9 @@
           "repeat": "container",
           "scopedVars": {
             "container": {
-              "selected": false,
-              "text": "istio-proxy",
-              "value": "istio-proxy"
+              "selected": true,
+              "text": "prometheus",
+              "value": "prometheus"
             }
           },
           "seriesOverrides": [],
@@ -1772,114 +1658,7 @@
           "fillGradient": 0,
           "gridPos": {
             "h": 6,
-            "w": 12,
-            "x": 12,
-            "y": 52
-          },
-          "hiddenSeries": false,
-          "id": 208,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": true,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "options": {
-            "dataLinks": []
-          },
-          "percentage": false,
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "repeat": null,
-          "repeatIteration": 1596423680808,
-          "repeatPanelId": 155,
-          "scopedVars": {
-            "container": {
-              "selected": false,
-              "text": "shipping",
-              "value": "shipping"
-            }
-          },
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum(irate(container_cpu_cfs_throttled_seconds_total{namespace=~\"$namespace.*\",pod=~\"$pod.*\"}[1m]))by(pod,container)",
-              "interval": "",
-              "legendFormat": "{{pod}}_{{container}}",
-              "refId": "D"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Throttle: $container",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "Prometheus",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "fill": 1,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 6,
-            "w": 12,
+            "w": 24,
             "x": 0,
             "y": 58
           },
@@ -1910,116 +1689,9 @@
           "repeat": "container",
           "scopedVars": {
             "container": {
-              "selected": false,
-              "text": "istio-proxy",
-              "value": "istio-proxy"
-            }
-          },
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum(irate(container_cpu_load_average_10s{namespace=~\"$namespace.*\",pod=~\"$pod.*\"}[1m]))by(pod)",
-              "interval": "",
-              "legendFormat": "{{pod}}_{{container}}",
-              "refId": "D"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Container LoadAverage: $container",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "Prometheus",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "fill": 1,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 6,
-            "w": 12,
-            "x": 12,
-            "y": 58
-          },
-          "hiddenSeries": false,
-          "id": 209,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": true,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "options": {
-            "dataLinks": []
-          },
-          "percentage": false,
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "repeat": null,
-          "repeatIteration": 1596423680808,
-          "repeatPanelId": 188,
-          "scopedVars": {
-            "container": {
-              "selected": false,
-              "text": "shipping",
-              "value": "shipping"
+              "selected": true,
+              "text": "prometheus",
+              "value": "prometheus"
             }
           },
           "seriesOverrides": [],
@@ -2108,7 +1780,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 27
+            "y": 91
           },
           "hiddenSeries": false,
           "id": 117,
@@ -2140,7 +1812,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum (container_memory_working_set_bytes{pod!=\"\", pod=~\"[[pod]].*\", namespace=~\"[[namespace]].*\"}) by (pod)",
+              "expr": "sum (container_memory_working_set_bytes{pod!=\"\", pod=~\"[[pod]].*\", namespace=~\"[[namespace]].*\",container!=\"\"}) by (pod)",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -2148,22 +1820,34 @@
               "refId": "A"
             },
             {
-              "expr": "sum (container_memory_cache{pod!=\"\", pod=~\"[[pod]].*\", namespace=~\"[[namespace]].*\"}) by (pod)",
+              "expr": "sum (container_memory_cache{pod!=\"\", pod=~\"[[pod]].*\", namespace=~\"[[namespace]].*\",container!=\"\"}) by (pod)",
               "interval": "",
               "legendFormat": "Cache_{{pod}}",
               "refId": "B"
             },
             {
-              "expr": "sum(container_memory_rss{pod!=\"\", pod=~\"[[pod]].*\", namespace=~\"[[namespace]].*\"}) by (pod)",
+              "expr": "sum(container_memory_rss{pod!=\"\", pod=~\"[[pod]].*\", namespace=~\"[[namespace]].*\",container!=\"\"}) by (pod)",
               "interval": "",
               "legendFormat": "RSS_{{pod}}",
               "refId": "C"
             },
             {
-              "expr": "sum(container_memory_mapped_file{pod!=\"\", pod=~\"[[pod]].*\", namespace=~\"[[namespace]].*\"}) by (pod)",
+              "expr": "sum(container_memory_mapped_file{pod!=\"\", pod=~\"[[pod]].*\", namespace=~\"[[namespace]].*\",container!=\"\"}) by (pod)",
               "interval": "",
               "legendFormat": "Mapped File_{{pod}}",
               "refId": "D"
+            },
+            {
+              "expr": "sum(kube_pod_container_resource_requests_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
+              "interval": "",
+              "legendFormat": "Requests_{{pod}}",
+              "refId": "E"
+            },
+            {
+              "expr": "sum(kube_pod_container_resource_limits_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
+              "interval": "",
+              "legendFormat": "Limits_{{pod}}",
+              "refId": "F"
             }
           ],
           "thresholds": [],
@@ -2186,7 +1870,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "decbytes",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -2225,7 +1909,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 35
+            "y": 99
           },
           "hiddenSeries": false,
           "id": 190,
@@ -2324,7 +2008,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 43
+            "y": 107
           },
           "hiddenSeries": false,
           "id": 191,
@@ -2436,7 +2120,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 28
+            "y": 92
           },
           "hiddenSeries": false,
           "id": 7,
@@ -2468,7 +2152,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(kube_pod_container_resource_requests_memory_bytes{exported_namespace=\"$namespace\",pod=\"$pod\"})",
+              "expr": "sum(kube_pod_container_resource_requests_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -2476,7 +2160,7 @@
               "refId": "A"
             },
             {
-              "expr": "sum(kube_pod_container_resource_limits_memory_bytes{exported_namespace=\"$namespace\",pod=\"$pod\"})",
+              "expr": "sum(kube_pod_container_resource_limits_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -2484,8 +2168,9 @@
               "refId": "B"
             },
             {
-              "expr": "sum(container_memory_working_set_bytes{namespace=\"$namespace\",container!=\"POD\",container!=\"\",pod!=\"\", pod=\"$pod\"})",
+              "expr": "sum(container_memory_working_set_bytes{namespace=~\"$namespace.*\",container!=\"POD\",container!=\"\",pod!=\"\", pod=~\"$pod.*\"})",
               "format": "time_series",
+              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "MEM",
               "refId": "C"
@@ -2554,9 +2239,9 @@
           "fillGradient": 0,
           "gridPos": {
             "h": 7,
-            "w": 12,
+            "w": 24,
             "x": 0,
-            "y": 36
+            "y": 100
           },
           "hiddenSeries": false,
           "id": 8,
@@ -2586,9 +2271,9 @@
           "repeatDirection": "h",
           "scopedVars": {
             "container": {
-              "selected": false,
-              "text": "istio-proxy",
-              "value": "istio-proxy"
+              "selected": true,
+              "text": "prometheus",
+              "value": "prometheus"
             }
           },
           "seriesOverrides": [],
@@ -2597,7 +2282,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(kube_pod_container_resource_requests_memory_bytes{exported_namespace=\"$namespace\",pod=\"$pod\",container=\"$container\"})",
+              "expr": "sum(kube_pod_container_resource_requests_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\",container=~\"$container.*\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -2605,7 +2290,7 @@
               "refId": "A"
             },
             {
-              "expr": "sum(kube_pod_container_resource_limits_memory_bytes{exported_namespace=\"$namespace\",pod=\"$pod\",container=\"$container\"})",
+              "expr": "sum(kube_pod_container_resource_limits_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\",container=~\"$container.*\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -2613,8 +2298,9 @@
               "refId": "B"
             },
             {
-              "expr": "sum(container_memory_working_set_bytes{namespace=\"$namespace\",container!=\"POD\",container!=\"\",pod!=\"\", pod=\"$pod\",container=\"$container\"}) by (container)",
+              "expr": "sum(container_memory_working_set_bytes{namespace=~\"$namespace.*\",container!=\"POD\",container!=\"\",pod!=\"\", pod=~\"$pod.*\",container=~\"$container.*\"}) by (container)",
               "format": "time_series",
+              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "Usage: {{ container }}",
               "refId": "C"
@@ -2677,134 +2363,9 @@
           "fillGradient": 0,
           "gridPos": {
             "h": 7,
-            "w": 12,
-            "x": 12,
-            "y": 36
-          },
-          "hiddenSeries": false,
-          "id": 216,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": false,
-            "max": true,
-            "min": true,
-            "rightSide": false,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "options": {
-            "dataLinks": []
-          },
-          "percentage": false,
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "repeat": null,
-          "repeatDirection": "h",
-          "repeatIteration": 1596423795736,
-          "repeatPanelId": 8,
-          "scopedVars": {
-            "container": {
-              "selected": false,
-              "text": "shipping",
-              "value": "shipping"
-            }
-          },
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum(kube_pod_container_resource_requests_memory_bytes{exported_namespace=\"$namespace\",pod=\"$pod\",container=\"$container\"})",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "Requested",
-              "refId": "A"
-            },
-            {
-              "expr": "sum(kube_pod_container_resource_limits_memory_bytes{exported_namespace=\"$namespace\",pod=\"$pod\",container=\"$container\"})",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "Limits",
-              "refId": "B"
-            },
-            {
-              "expr": "sum(container_memory_working_set_bytes{namespace=\"$namespace\",container!=\"POD\",container!=\"\",pod!=\"\", pod=\"$pod\",container=\"$container\"}) by (container)",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "legendFormat": "Usage: {{ container }}",
-              "refId": "C"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Memory: $container",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "bytes",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "Prometheus",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "fill": 1,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 7,
-            "w": 12,
+            "w": 24,
             "x": 0,
-            "y": 43
+            "y": 107
           },
           "hiddenSeries": false,
           "id": 215,
@@ -2833,118 +2394,9 @@
           "repeat": "container",
           "scopedVars": {
             "container": {
-              "selected": false,
-              "text": "istio-proxy",
-              "value": "istio-proxy"
-            }
-          },
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum (container_memory_swap{pod!=\"\", pod=~\"[[pod]].*\", namespace=~\"[[namespace]].*\"}) by (pod)",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "{{pod}}",
-              "refId": "A"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Swap Usage: $container",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "Prometheus",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "fill": 1,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 7,
-            "w": 12,
-            "x": 12,
-            "y": 43
-          },
-          "hiddenSeries": false,
-          "id": 217,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": true,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "options": {
-            "dataLinks": []
-          },
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "repeat": null,
-          "repeatIteration": 1596423795736,
-          "repeatPanelId": 215,
-          "scopedVars": {
-            "container": {
-              "selected": false,
-              "text": "shipping",
-              "value": "shipping"
+              "selected": true,
+              "text": "prometheus",
+              "value": "prometheus"
             }
           },
           "seriesOverrides": [],
@@ -6549,12 +6001,9 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
-          "tags": [],
+          "selected": false,
           "text": "All",
-          "value": [
-            "$__all"
-          ]
+          "value": "$__all"
         },
         "datasource": "Prometheus",
         "definition": "label_values(kube_namespace_labels, exported_namespace)",
@@ -6579,9 +6028,10 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "text": "shipping-774579578-n7zt9",
+          "tags": [],
+          "text": "prometheus-deployment-0",
           "value": [
-            "shipping-774579578-n7zt9"
+            "prometheus-deployment-0"
           ]
         },
         "datasource": "Prometheus",
@@ -6607,9 +6057,9 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "text": "All",
+          "text": "prometheus",
           "value": [
-            "$__all"
+            "prometheus"
           ]
         },
         "datasource": "Prometheus",
@@ -6664,5 +6114,5 @@
   "timezone": "",
   "title": "Pod Detail Dashborad",
   "uid": "4J7D8vmMz",
-  "version": 71
+  "version": 74
 }
