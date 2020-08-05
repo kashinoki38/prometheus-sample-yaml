@@ -436,3 +436,5 @@ https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/kubele
 ### Prometheus
 
 #### Grafana Dashboard
+
+https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/Prometheus-stat-dashboard.json
