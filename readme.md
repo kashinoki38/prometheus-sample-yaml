@@ -1,15 +1,15 @@
-## 必要メトリクス一覧
+# 必要メトリクス一覧
 
-### サービス監視（RED）
+## サービス監視（RED）
 
-#### Jmeter
+### Jmeter
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 性能試験時のクライアント  
 Jmeter のメトリクスを収集<br/>BackendListner->InfluxDB->Grafana
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/jmeter-metrics-dashboard.json
 
@@ -19,11 +19,11 @@ https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/jmeter
 | ResponseTime |     | D         |
 | Error%       |     | E         |
 
-#### システムサイド　 Istio Telemet
+### システムサイド　 Istio Telemet
 
 Istio のテレメトリ機能で各 service のメトリクスを収集
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/Istio-Mesh-Dashboard.json  
 https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/Istio-Workload-Dashboard.json  
@@ -35,7 +35,7 @@ https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/Istio-
 | ResponseTime |     | D         | o          |
 | Error%       |     | E         | o          |
 
-#### システムサイド　 Prometheus クライアントライブラリを利用
+### システムサイド　 Prometheus クライアントライブラリを利用
 
 • 各言語のクライアントライブラリ使って Prometheus にメトリクスとして送る（request_duration_seconds をヒストグラム集計）
 https://github.com/devopsdemoapps/sockshop/search?q=request_duration_seconds&unscoped_q=request_duration_seconds
@@ -50,7 +50,7 @@ https://github.com/devopsdemoapps/sockshop/search?q=request_duration_seconds&uns
   - io.prometheus.client.Histogram
   - https://github.com/devopsdemoapps/sockshop/blob/13041ac53907b1de51f39160e6ed5be7efdc8bf7/carts/src/main/java/works/weave/socks/cart/middleware/HTTPMonitoringInterceptor.java#L23
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 TBD
 
@@ -60,13 +60,13 @@ TBD
 | ResponseTime |                                             | D         | o          |                   |                    |
 | Error%       |                                             | E         | o          |
 
-### OS リソース監視（USE）
+## OS リソース監視（USE）
 
-#### クラスタ全体
+### クラスタ全体
 
 NodeExporter と cAdvisor にて収集
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/kubernetes-cluster-dashboard.json
 
@@ -85,11 +85,11 @@ https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/kubern
 | Job Count              | Job Count                                                              | Availability | o          |
 |                        | Failed Job Count                                                       | Availability | o          |
 
-#### Node
+### Node
 
 Node Exporter で収集
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/node-exporter-dashboard.json
 
@@ -139,12 +139,12 @@ https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/node-e
 |                   | プロセス数(ゾンビ)                                                     | U            |            |
 |                   | 占有プロセス状況(プロセスキューサイズ)                                 | U            |
 
-#### Pod/Container
+### Pod/Container
 
 cAdvisor にて収集
 (Kubelet バイナリに統合されているので scrape の設定のみで OK)
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/pod_detail-dashboard.json
 
@@ -186,11 +186,11 @@ https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/pod_de
 |                        | ping                                                               | Availability |            |
 |                        | ファイルディスクリプタ                                             | U            | △          |
 
-#### Persistent Volume
+### Persistent Volume
 
 kubelet の metics エンドポイントから収集
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/pv-dashboard.json
 
@@ -199,11 +199,11 @@ https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/pv-das
 | ファイルシステム | ディスク領域使用量 | U         | o          |
 |                  | inode 総数/使用率  | U         | o          |
 
-### MW リソース監視
+## MW リソース監視
 
-#### Nginx
+### Nginx
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 TBD
 
@@ -215,12 +215,12 @@ TBD
 | レイテンシ     | Response Time    | D         |            |
 | Network bytes  |
 
-#### Java (Jetty on SpringBoot)
+### Java (Jetty on SpringBoot)
 
 SpringBoot2 系以降から実装の、Micrometer Actuator を使用  
 （pom.xml 変更のみで良いはず）
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/jmx-exporter-dashboard.json
 
@@ -240,12 +240,12 @@ https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/jmx-ex
 | スレッドプール使用率     | スレッドプール使用率     | S         | ?          |
 | コネクションプール使用数 | コネクションプール使用数 | S         | ?          |
 
-#### Go
+### Go
 
 golang クライアントライブラリの promhttp を使用  
 https://github.com/prometheus/client_golang/tree/master/prometheus/promhttp
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/go-process-dashboard.json
 
@@ -256,12 +256,12 @@ https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/go-pro
 | Goroutines     |     | S         | o          |
 | GC duration    |     | S         | o          | ##### Grafana Dashboard |
 
-#### Nodejs
+### Nodejs
 
 nodejs クライアントライブラリの prom-client を使用  
 https://github.com/siimon/prom-client
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/nodejs-dashboard.json
 
@@ -270,25 +270,25 @@ https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/nodejs
 | Process Memory  |     | U         | o          |
 | Active Handlers |     | S         | o          |
 
-#### MySQL
+### MySQL
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
-#### mongodb
+### mongodb
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
-#### Redis
+### Redis
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
-### Kubernetes コンポーネント
+## Kubernetes コンポーネント
 
-#### kube-api-server
+### kube-api-server
 
 kube-api-server の metrics エンドポイントから収集
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/kube-apiserver-dashboard.json
 
@@ -307,12 +307,12 @@ https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/kube-a
 |                         | CPU 使用量                     |           | o          |
 |                         | Go routine                     |           | o          |
 
-#### kube-controller-manager
+### kube-controller-manager
 
 Controller manager の metrics エンドポイントから収集  
 デフォルトでエンドポイントを公開しないコンポーネントの場合、--bind-address フラグを使用して有効にする
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 TBD
 
@@ -328,12 +328,12 @@ TBD
 |                  | CPU 使用量                               |           |            |
 |                  | Go routine                               |
 
-#### etcd
+### etcd
 
 kube-scheduler の metrics エンドポイントから収集  
 デフォルトでエンドポイントを公開しないコンポーネントの場合、--bind-address フラグを使用して有効にする
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 TBD
 
@@ -351,11 +351,11 @@ TBD
 |             | grpc                      |           |            |
 | snapshot    | snapshot レイテンシ       |
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
-#### kube-scheduler
+### kube-scheduler
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 TBD
 
@@ -370,12 +370,12 @@ TBD
 |            | Go routine                    |           |            |
 | Leader     | Leader 変更回数               |
 
-#### kube-proxy
+### kube-proxy
 
 kube-proxy の metrics エンドポイントから収集  
 デフォルトでエンドポイントを公開しないコンポーネントの場合、--bind-address フラグを使用して有効にする
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 TBD
 
@@ -391,11 +391,11 @@ TBD
 |                     | CPU 使用量                     |           |            |
 |                     | Go routine                     |
 
-#### kubelet
+### kubelet
 
 各ノードの 10255 ポート
 
-##### Grafana Dashboard
+#### Grafana Dashboard
 
 https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/kubelet-dashboard.json
 
@@ -416,6 +416,6 @@ https://github.com/kashinoki38/prometheus-sample-yaml/blob/master/grafana/kubele
 |                                          | Cgroup マネージャのオペレーション時間                                                                                                                                                                          | S            | o          |
 | ポッドライフサイクルイベントジェネレータ | ポッドライフサイクルイベントジェネレーター（PLEG）：<br/>relist レート、relist インターバル、relist 間隔時間。これらの値のエラーまたは過度の遅延は、ポッドの Kubernetes ステータスに問題を引き起こす可能性があ | U            | o          |
 
-#### Prometheus
+### Prometheus
 
-##### Grafana Dashboard
+#### Grafana Dashboard
