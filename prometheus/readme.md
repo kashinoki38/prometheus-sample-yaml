@@ -1,96 +1,252 @@
-## Necessary Metrics and How to Monitor These by Prometheus
+## USE x RED
 
-| Necesarry Metrics   | How to Monitor These by Prometheus | Document Link                                                             |
-| ------------------- | ---------------------------------- | ------------------------------------------------------------------------- |
-| OS Resouce of Pods  | cAdvisor                           | https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md |
-|                     | kube-state-metrics                 |                                                                           |
-| OS Resouce of Nodes | node-exporter                      |                                                                           |
+### サービス監視（RED）
 
-### 監視項目
+- Rate : =Throughput, 秒間リクエスト数, 秒間 PV 数
+- Error Rate : エラー率, 5xx とか
+- Duration : =ResponseTime, %ile 評価が一般的
 
-#### RED
+### リソース監視（USE）http://www.brendangregg.com/usemethod.html
 
-#### USE
+- Utilization : 使用率 E.g. CPU 使用率
+- Saturation : 飽和度, どれくらいキューに詰まっているか  E.g. ロードアベレージ
+- Errors : エラーイベントの数
 
-#### Istio 自体
+## 必要な Exporter
 
-- Control plane(istiod, istio-pilot)
-  - USE
-    - CPU
-    - Memory
-    - Concurrencty
-  - RED
-    - Config pushes count
-    - Config pushes duration
-    - Config pushes errors
-- Data plane(Envory proxies)
-  - USE
-    - CPU
-    - Memory
-    - Concurrencty
-  - RED
-    - Requests count
-    - Requests error counts
-    - Requests duration
-  - 全サイドカーの Overview を一つのダッシュボードで確認するのが良い
-    - クラスタ内のサイドカーの数
-    - サイドカーあたりの平均 CPU 使用率
-    - サイドカーあたりの平均 Memory 使用率
-    - 外れ値の Heatmap
+| Exporter           | Link                                                                                                                                       |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Node Exporter      | NodeExporter<br/>https://github.com/kashinoki38/microservices-demo/blob/master/deploy/kubernetes/manifests-monitoring/node-exporter-ds.yml |
+| kube-state-metrics | kube-state-metrics<br/>https://github.com/kubernetes/kube-state-metrics/tree/master/docs                                                   |
 
-#### kubernetes 自体
+## 各 Exporter に対する Scrape 方針
 
-##### Node
+| Exporter              | Scrape Target Endpoint                                                                                                                                       | Scrape Config Sample の job name |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------- |
+| cadvisor              | apiserver の以下 metrics パス<br/>https://kubernetes.default.svc:443/api/v1/nodes/gke-cn-horiuchiysh-s-cn-horiuchiysh-s-2b141725-5coq/proxy/metrics/cadvisor | kubernetes-cadvisor              |
+| NodeExporter          | 各 pod のコンテナポートの/metrics へ投げる<br/>nodexporter/metrics                                                                                           | kubernetes-pods                  |
+| go                    | 各 pod のコンテナポートの/metrics へ投げる<br/>go/metrics                                                                                                    | kubernetes-service-endpoints     |
+| nodejs                | 各 pod のコンテナポートの/metrics へ投げる<br/>nodejs/metrics                                                                                                | kubernetes-service-endpoints     |
+| mongodb               | 各 pod のコンテナポートの/metrics へ投げる<br/>mongodb/metrics                                                                                               | kubernetes-pods                  |
+| Istio Mesh            | istio-telemetry サービスの endpoint port name が prometheus<br/>http://10.48.2.14:42422/metrics                                                              | istio-mesh                       |
+| kubelet               | 各ノードの 10255 ポート<br/>http://10.30.3.20:10255/metrics10255                                                                                             | kubernetes-nodes                 |
+| kube-apiserver        | default namespace に api server 向けの svc と endpoint がある<br/>https://104.198.95.200:443/metrics                                                         | kubernetes-service-endpoints     |
+| kube-state-metrics    | 各サービスの/metrics へ投げる<br/>http://kube-state-metrics:8080/metrics                                                                                     | kubernetes-service-endpoints     |
+| prove                 | /api/v1/nodes/gke-cn-horiuchiysh-s-cn-horiuchiysh-s-2b141725-5coq/proxy/metrics/probes<br/>                                                                  | ベット job が必要                |
+| kube-controll-manager | デフォルトでエンドポイントを公開しないコンポーネントの場合、--bind-address フラグを使用して有効にする<br/>/metrics                                           |                                  |
+| kube-proxy            | デフォルトでエンドポイントを公開しないコンポーネントの場合、--bind-address フラグを使用して有効にする<br/>/metrics                                           |                                  |
+| kube-scheduler        | デフォルトでエンドポイントを公開しないコンポーネントの場合、--bind-address フラグを使用して有効にする<br/>/metrics                                           |
 
-##### Pod
+### Scrape Config Sample
 
-- CPU
-  - usage
-  - requests
-  - limits
-  - throttled seconds
-  - Overcommitted State かどうかわかるメトリクス？
-- Memory
-  - usage
-  - requests
-  - limits
-- Network
-- Disk
-
-##### Container
-
-### cAdvisor
-
-- node の 10255 ポートの metrics/cadvisor にリクエストなげるとコンテナ単位のが取れる
-- cAdvisor は kubelet バイナリに統合されているので、デフォルトで取得可能。
-- scrape config で取得するための設定が必要
+#### kubernetes-pods
 
 ```yaml
-# Scrape config for Kubelet cAdvisor.
-- job_name: "kubernetes-cadvisor"
-  scheme: https
+- job_name: kubernetes-pods
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  kubernetes_sd_configs:
+  - role: pod
+  relabel_configs:
+  - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+    separator: ;
+    regex: ""true""
+    replacement: $1
+    action: keep
+  - source_labels: [__meta_kubernetes_pod_node_name]
+    separator: ;
+    regex: (.*)
+    target_label: node
+    replacement: $1
+    action: replace
+  - source_labels: [__meta_kubernetes_namespace]
+    separator: ;
+    regex: (.*)
+    target_label: namespace
+    replacement: $1
+    action: replace
+  - source_labels: [__meta_kubernetes_pod_name]
+    separator: ;
+    regex: (.*)
+    target_label: pod_name
+    replacement: $1
+    action: replace
+```
 
-  tls_config:
-    ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-  bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+#### kubernetes-nodes
 
+各ノードの 10255 ポート
+
+```yaml
+- job_name: kubernetes-nodes
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
   kubernetes_sd_configs:
     - role: node
-
+  bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+  tls_config:
+    insecure_skip_verify: true
   relabel_configs:
-    - action: labelmap
+    - separator: ;
+      regex: (.*)
+      target_label: __scheme__
+      replacement: https
+      action: replace
+    - source_labels: [__meta_kubernetes_node_label_kubernetes_io_hostname]
+      separator: ;
+      regex: (.*)
+      target_label: instance
+      replacement: $1
+      action: replace
+    - source_labels: [__address__]
+      separator: ;
+      regex: ^(.+?)(?::\d+)?$
+      target_label: __address__
+      replacement: $1:10255
+      action: replace
+```
+
+#### kubernetes-cadvisor
+
+apiserver の以下 metrics パス  
+`/api/v1/nodes/gke-cn-horiuchiysh-s-cn-horiuchiysh-s-2b141725-5coq/proxy/metrics/cadvisor`
+
+```yaml
+- job_name: kubernetes-cadvisor
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: https
+  kubernetes_sd_configs:
+    - role: node
+  bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+  tls_config:
+    ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    insecure_skip_verify: false
+  relabel_configs:
+    - separator: ;
       regex: __meta_kubernetes_node_label_(.+)
-    - target_label: __address__
+      replacement: $1
+      action: labelmap
+    - separator: ;
+      regex: (.*)
+      target_label: __address__
       replacement: kubernetes.default.svc:443
+      action: replace
     - source_labels: [__meta_kubernetes_node_name]
+      separator: ;
       regex: (.+)
       target_label: __metrics_path__
       replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
+      action: replace
 ```
 
-### kube-state-metrics
+#### istio-mesh
 
-### node-exporter
+istio-telemetry サービスの endpoint port name が prometheus の port
+
+```yaml
+- job_name: istio-mesh
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  kubernetes_sd_configs:
+    - role: endpoints
+      namespaces:
+        names:
+          - istio-system
+  relabel_configs:
+    - source_labels:
+        [__meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+      separator: ;
+      regex: istio-telemetry;prometheus
+      replacement: $1
+      action: keep
+```
+
+#### kubernetes-service-endpoints
+
+```yaml
+- job_name: kubernetes-service-endpoints
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  kubernetes_sd_configs:
+    - role: endpoints
+  bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+  tls_config:
+    ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    insecure_skip_verify: false
+  relabel_configs:
+    - source_labels: [__meta_kubernetes_service_label_component]
+      separator: ;
+      regex: apiserver
+      target_label: __scheme__
+      replacement: https
+      action: replace
+    - source_labels:
+        [__meta_kubernetes_service_label_kubernetes_io_cluster_service]
+      separator: ;
+      regex: "true"
+      replacement: $1
+      action: drop
+    - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+      separator: ;
+      regex: "false"
+      replacement: $1
+      action: drop
+    - source_labels: [__meta_kubernetes_pod_container_port_name]
+      separator: ;
+      regex: .*-noscrape
+      replacement: $1
+      action: drop
+    - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+      separator: ;
+      regex: ^(https?)$
+      target_label: __scheme__
+      replacement: $1
+      action: replace
+    - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+      separator: ;
+      regex: ^(.+)$
+      target_label: __metrics_path__
+      replacement: $1
+      action: replace
+    - source_labels:
+        [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+      separator: ;
+      regex: ^(.+)(?::\d+);(\d+)$
+      target_label: __address__
+      replacement: $1:$2
+      action: replace
+    - separator: ;
+      regex: ^__meta_kubernetes_service_label_(.+)$
+      replacement: $1
+      action: labelmap
+    - source_labels: [__meta_kubernetes_namespace]
+      separator: ;
+      regex: (.*)
+      target_label: namespace
+      replacement: $1
+      action: replace
+    - source_labels: [__meta_kubernetes_pod_name]
+      separator: ;
+      regex: (.*)
+      target_label: pod_name
+      replacement: $1
+      action: replace
+```
 
 ## prometheus.yaml の relabel_config
 
