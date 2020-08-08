@@ -17,7 +17,7 @@
   "gnetId": 5270,
   "graphTooltip": 1,
   "id": 49,
-  "iteration": 1596657742469,
+  "iteration": 1596659348825,
   "links": [],
   "panels": [
     {
@@ -1371,7 +1371,7 @@
       }
     }
   ],
-  "refresh": false,
+  "refresh": "10s",
   "schemaVersion": 25,
   "style": "dark",
   "tags": [
@@ -1449,9 +1449,7 @@
         "allFormat": "glob",
         "allValue": null,
         "current": {
-          "selected": false,
-          "text": "10.48.5.13:9216",
-          "value": "10.48.5.13:9216"
+          "selected": false
         },
         "datasource": "Prometheus",
         "definition": "label_values(mongodb_connections, instance)",
@@ -1468,6 +1466,32 @@
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": null,
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "user-db-5789fc7c67-d265n",
+          "value": "user-db-5789fc7c67-d265n"
+        },
+        "datasource": "Prometheus",
+        "definition": "label_values(mongodb_connections{instance=\"$host\"}, pod_name)",
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "Pod",
+        "options": [],
+        "query": "label_values(mongodb_connections{instance=\"$host\"}, pod_name)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
         "type": "query",
@@ -1507,5 +1531,5 @@
   "timezone": "browser",
   "title": "MongoDB Overview Hmx",
   "uid": "3PBsuiIGk",
-  "version": 3
+  "version": 9
 }
