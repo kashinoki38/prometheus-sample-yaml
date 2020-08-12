@@ -29,8 +29,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "id": 13,
-  "iteration": 1593401865035,
+  "id": 14,
+  "iteration": 1597221282905,
   "links": [
     {
       "asDropdown": true,
@@ -61,429 +61,6 @@
       "type": "row"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
-      "datasource": "InfluxDB",
-      "editable": true,
-      "error": false,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 0,
-        "y": 1
-      },
-      "id": 19,
-      "interval": "$granularity",
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": " users",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": true,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": true
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "dsType": "influxdb",
-          "groupBy": [
-            {
-              "params": [
-                "$granularity"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "jmeter",
-          "orderByTime": "ASC",
-          "policy": "$retention",
-          "query": "SELECT last(\"startedT\") FROM \"jmeter\" WHERE \"application\" =~ /$app$/ AND $timeFilter GROUP BY time($granularity) fill(null)",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "meanAT"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "application",
-              "operator": "=~",
-              "value": "/$app$/"
-            }
-          ]
-        }
-      ],
-      "thresholds": "",
-      "title": "Active Users",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "0",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
-      "datasource": "InfluxDB",
-      "editable": true,
-      "error": false,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 8,
-        "y": 1
-      },
-      "id": 17,
-      "interval": "",
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": " TPS",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": true,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": true
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "dsType": "influxdb",
-          "groupBy": [
-            {
-              "params": [
-                "$granularity"
-              ],
-              "type": "time"
-            }
-          ],
-          "hide": false,
-          "measurement": "jmeter",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"count\")  / 30 FROM \"$retention\".\"jmeter\" WHERE \"application\" =~ /$app$/ AND \"transaction\" = 'all' AND $timeFilter GROUP BY time(30s)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "hit"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              },
-              {
-                "params": [
-                  " / 5"
-                ],
-                "type": "math"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "application",
-              "operator": "=~",
-              "value": "/$app$/"
-            },
-            {
-              "condition": "AND",
-              "key": "transaction",
-              "operator": "=",
-              "value": "all"
-            }
-          ]
-        },
-        {
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "hide": true,
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"count\")  / 30 FROM \"$retention\".\"jmeter\" WHERE (\"application\" =~ /$app$/ AND \"transaction\" <> 'all' AND \"statut\" = 'all') AND $timeFilter GROUP BY time(30s)",
-          "rawQuery": true,
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
-      "thresholds": "",
-      "title": "Currents Transactions per Second",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "0",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": true,
-      "colors": [
-        "rgba(50, 172, 45, 0.97)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(245, 54, 54, 0.9)"
-      ],
-      "datasource": "InfluxDB",
-      "editable": true,
-      "error": false,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "format": "percentunit",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 16,
-        "y": 1
-      },
-      "id": 21,
-      "interval": "$granularity",
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": true,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": true
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "dsType": "influxdb",
-          "groupBy": [],
-          "measurement": "jmeter",
-          "policy": "$retention",
-          "query": "SELECT sum(\"countError\")  / sum(\"count\") FROM \"$retention\".\"jmeter\" WHERE \"application\" =~ /$app$/ AND \"transaction\" = 'all' AND $timeFilter",
-          "rawQuery": true,
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "countError"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              },
-              {
-                "params": [
-                  " / sum(\"count\")"
-                ],
-                "type": "math"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "application",
-              "operator": "=~",
-              "value": "/$app$/"
-            },
-            {
-              "condition": "AND",
-              "key": "transaction",
-              "operator": "=",
-              "value": "all"
-            }
-          ]
-        }
-      ],
-      "thresholds": "0.1,0.2",
-      "title": "% Errors",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "0",
-          "value": "null"
-        }
-      ],
-      "valueName": "total"
-    },
-    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -501,10 +78,10 @@
       "fillGradient": 0,
       "grid": {},
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 8,
         "x": 0,
-        "y": 5
+        "y": 1
       },
       "hiddenSeries": false,
       "id": 27,
@@ -600,7 +177,7 @@
               "condition": "AND",
               "key": "transaction",
               "operator": "=~",
-              "value": "/SC._PV/"
+              "value": "/URL/"
             }
           ]
         },
@@ -660,7 +237,7 @@
         "buckets": null,
         "mode": "time",
         "name": null,
-        "show": false,
+        "show": true,
         "values": []
       },
       "yaxes": [
@@ -685,90 +262,88 @@
       }
     },
     {
+      "aliasColors": {},
+      "bars": false,
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
+      "dashLength": 10,
+      "dashes": false,
       "datasource": "InfluxDB",
-      "editable": true,
-      "error": false,
       "fieldConfig": {
         "defaults": {
           "custom": {}
         },
         "overrides": []
       },
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
+      "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 8,
         "x": 8,
-        "y": 5
+        "y": 1
       },
-      "id": 22,
+      "hiddenSeries": false,
+      "id": 19,
       "interval": "$granularity",
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": true,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": true
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
       },
-      "tableColumn": "",
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "maxDataPoints": 100,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
           "dsType": "influxdb",
-          "groupBy": [],
+          "groupBy": [
+            {
+              "params": [
+                "$granularity"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
           "measurement": "jmeter",
           "orderByTime": "ASC",
           "policy": "$retention",
-          "query": "SELECT \"hit\" FROM \"jmeter\" WHERE \"application\" =~ /$app$/ AND \"statut\" = 'all' AND $timeFilter",
-          "rawQuery": false,
+          "query": "SELECT last(\"startedT\") FROM \"jmeter\" WHERE \"application\" =~ /$app$/ AND $timeFilter GROUP BY time($granularity) fill(null)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "hit"
+                  "meanAT"
                 ],
                 "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
               }
             ]
           ],
@@ -777,28 +352,50 @@
               "key": "application",
               "operator": "=~",
               "value": "/$app$/"
-            },
-            {
-              "condition": "AND",
-              "key": "statut",
-              "operator": "=",
-              "value": "all"
             }
           ]
         }
       ],
-      "thresholds": "",
-      "title": "Total Hits",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Active Users",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
         {
-          "op": "=",
-          "text": "0",
-          "value": "null"
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "valueName": "total"
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "aliasColors": {},
@@ -815,13 +412,13 @@
         "overrides": []
       },
       "fill": 1,
-      "fillGradient": 0,
+      "fillGradient": 1,
       "grid": {},
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 8,
         "x": 16,
-        "y": 5
+        "y": 1
       },
       "hiddenSeries": false,
       "id": 28,
@@ -829,6 +426,8 @@
       "legend": {
         "avg": false,
         "current": false,
+        "hideEmpty": true,
+        "hideZero": true,
         "max": false,
         "min": false,
         "show": false,
@@ -843,13 +442,13 @@
         "dataLinks": []
       },
       "percentage": false,
-      "pointradius": 5,
-      "points": false,
+      "pointradius": 2,
+      "points": true,
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
-      "steppedLine": true,
+      "steppedLine": false,
       "targets": [
         {
           "alias": "Errors",
@@ -869,6 +468,7 @@
             }
           ],
           "measurement": "jmeter",
+          "orderByTime": "ASC",
           "policy": "$retention",
           "query": "SELECT mean(\"countError\")  / 5 FROM \"jmeter\" WHERE \"application\" =~ /$app$/ AND $timeFilter GROUP BY time($granularity) fill(0)",
           "rawQuery": false,
@@ -919,7 +519,7 @@
         "buckets": null,
         "mode": "time",
         "name": null,
-        "show": false,
+        "show": true,
         "values": []
       },
       "yaxes": [
@@ -980,18 +580,18 @@
         },
         "overrides": []
       },
-      "fill": 1,
+      "fill": 8,
       "fillGradient": 0,
       "grid": {},
       "gridPos": {
-        "h": 9,
+        "h": 21,
         "w": 24,
         "x": 0,
         "y": 10
       },
       "height": "",
       "hiddenSeries": false,
-      "id": 25,
+      "id": 26,
       "interval": "$granularity",
       "legend": {
         "alignAsTable": true,
@@ -1001,7 +601,7 @@
         "max": true,
         "min": true,
         "rightSide": true,
-        "show": false,
+        "show": true,
         "sort": "max",
         "sortDesc": true,
         "total": false,
@@ -1018,6 +618,185 @@
       "percentage": false,
       "pointradius": 5,
       "points": false,
+      "renderer": "flot",
+      "scopedVars": {
+        "app": {
+          "isNone": true,
+          "selected": true,
+          "text": "None",
+          "value": ""
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$tag_transaction",
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "30s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "transaction"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "jmeter",
+          "orderByTime": "ASC",
+          "policy": "$retention",
+          "query": "SELECT mean(\"count\")  / 5 FROM \"jmeter\" WHERE \"application\" =~ /$app$/ AND \"transaction\" <> 'all' AND $timeFilter GROUP BY time($granularity), \"transaction\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              },
+              {
+                "params": [
+                  " / 30"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "application",
+              "operator": "=~",
+              "value": "/$app$/"
+            },
+            {
+              "condition": "AND",
+              "key": "statut",
+              "operator": "=",
+              "value": "ok"
+            },
+            {
+              "condition": "AND",
+              "key": "transaction",
+              "operator": "<>",
+              "value": "all"
+            },
+            {
+              "condition": "AND",
+              "key": "transaction",
+              "operator": "=~",
+              "value": "/URL/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Transaction Per Second",
+      "tooltip": {
+        "msResolution": false,
+        "shared": false,
+        "sort": 0,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": null,
+          "format": "ops",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "InfluxDB",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 31
+      },
+      "height": "",
+      "hiddenSeries": false,
+      "id": 25,
+      "interval": "$granularity",
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "maxPerRow": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 1,
+      "points": true,
       "renderer": "flot",
       "scopedVars": {
         "app": {
@@ -1072,6 +851,12 @@
               "key": "statut",
               "operator": "=",
               "value": "all"
+            },
+            {
+              "condition": "AND",
+              "key": "transaction",
+              "operator": "!~",
+              "value": "/URL/"
             }
           ]
         }
@@ -1080,7 +865,163 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "90%ile Response Time",
+      "title": "90%ile Response Time - PV",
+      "tooltip": {
+        "msResolution": false,
+        "shared": false,
+        "sort": 0,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ms",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "InfluxDB",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 20,
+        "w": 24,
+        "x": 0,
+        "y": 41
+      },
+      "height": "",
+      "hiddenSeries": false,
+      "id": 42,
+      "interval": "$granularity",
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "maxPerRow": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 1,
+      "points": true,
+      "renderer": "flot",
+      "scopedVars": {
+        "app": {
+          "isNone": true,
+          "selected": true,
+          "text": "None",
+          "value": ""
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$tag_transaction",
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "transaction"
+              ],
+              "type": "tag"
+            }
+          ],
+          "hide": false,
+          "measurement": "jmeter",
+          "orderByTime": "ASC",
+          "policy": "$retention",
+          "query": "SELECT mean(\"avg\") FROM \"jmeter\" WHERE \"application\" =~ /$app$/ AND $timeFilter GROUP BY time($granularity), \"transaction\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "pct90.0"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "application",
+              "operator": "=~",
+              "value": "/$app$/"
+            },
+            {
+              "condition": "AND",
+              "key": "statut",
+              "operator": "=",
+              "value": "all"
+            },
+            {
+              "condition": "AND",
+              "key": "transaction",
+              "operator": "=~",
+              "value": "/URL/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "90%ile Response Time - URL detail",
       "tooltip": {
         "msResolution": false,
         "shared": false,
@@ -1137,408 +1078,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 19
-      },
-      "height": "",
-      "hiddenSeries": false,
-      "id": 26,
-      "interval": "$granularity",
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "hideEmpty": false,
-        "max": true,
-        "min": true,
-        "rightSide": true,
-        "show": true,
-        "sort": "max",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "maxPerRow": 1,
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "scopedVars": {
-        "app": {
-          "isNone": true,
-          "selected": true,
-          "text": "None",
-          "value": ""
-        }
-      },
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "$tag_transaction",
-          "dsType": "influxdb",
-          "groupBy": [
-            {
-              "params": [
-                "30s"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "transaction"
-              ],
-              "type": "tag"
-            }
-          ],
-          "measurement": "jmeter",
-          "orderByTime": "ASC",
-          "policy": "$retention",
-          "query": "SELECT mean(\"count\")  / 5 FROM \"jmeter\" WHERE \"application\" =~ /$app$/ AND \"transaction\" <> 'all' AND $timeFilter GROUP BY time($granularity), \"transaction\"",
-          "rawQuery": false,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "count"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              },
-              {
-                "params": [
-                  " / 30"
-                ],
-                "type": "math"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "application",
-              "operator": "=~",
-              "value": "/$app$/"
-            },
-            {
-              "condition": "AND",
-              "key": "statut",
-              "operator": "=",
-              "value": "ok"
-            },
-            {
-              "condition": "AND",
-              "key": "transaction",
-              "operator": "<>",
-              "value": "all"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Transaction Per Second",
-      "tooltip": {
-        "msResolution": false,
-        "shared": false,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ops",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {
-        "ErrorTPS": "#bf1b00",
-        "SuccessTPS": "#508642"
-      },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "InfluxDB",
-      "editable": true,
-      "error": false,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "grid": {},
-      "gridPos": {
-        "h": 7,
-        "w": 24,
-        "x": 0,
-        "y": 26
-      },
-      "height": "",
-      "hiddenSeries": false,
-      "id": 38,
-      "interval": "$granularity",
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "hideEmpty": false,
-        "max": true,
-        "min": true,
-        "rightSide": true,
-        "show": true,
-        "sort": "current",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "maxPerRow": 1,
-      "nullPointMode": "null as zero",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "scopedVars": {
-        "app": {
-          "isNone": true,
-          "selected": true,
-          "text": "None",
-          "value": ""
-        }
-      },
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "ErrorTPS",
-          "dsType": "influxdb",
-          "groupBy": [
-            {
-              "params": [
-                "30s"
-              ],
-              "type": "time"
-            }
-          ],
-          "hide": false,
-          "measurement": "jmeter",
-          "orderByTime": "ASC",
-          "policy": "$retention",
-          "query": "SELECT mean(\"count\")  / 5 FROM \"jmeter\" WHERE \"application\" =~ /$app$/ AND \"transaction\" <> 'all' AND $timeFilter GROUP BY time($granularity), \"transaction\"",
-          "rawQuery": false,
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "count"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              },
-              {
-                "params": [
-                  " / 30"
-                ],
-                "type": "math"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "application",
-              "operator": "=~",
-              "value": "/$app$/"
-            },
-            {
-              "condition": "AND",
-              "key": "transaction",
-              "operator": "<>",
-              "value": "all"
-            },
-            {
-              "condition": "AND",
-              "key": "statut",
-              "operator": "=",
-              "value": "ko"
-            }
-          ]
-        },
-        {
-          "alias": "SuccessTPS",
-          "dsType": "influxdb",
-          "groupBy": [
-            {
-              "params": [
-                "30s"
-              ],
-              "type": "time"
-            }
-          ],
-          "hide": false,
-          "measurement": "jmeter",
-          "orderByTime": "ASC",
-          "policy": "$retention",
-          "query": "SELECT mean(\"count\")  / 5 FROM \"jmeter\" WHERE \"application\" =~ /$app$/ AND \"transaction\" <> 'all' AND $timeFilter GROUP BY time($granularity), \"transaction\"",
-          "rawQuery": false,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "count"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              },
-              {
-                "params": [
-                  " / 30"
-                ],
-                "type": "math"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "application",
-              "operator": "=~",
-              "value": "/$app$/"
-            },
-            {
-              "condition": "AND",
-              "key": "transaction",
-              "operator": "<>",
-              "value": "all"
-            },
-            {
-              "condition": "AND",
-              "key": "statut",
-              "operator": "=",
-              "value": "ok"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Success/Error Throughput",
-      "tooltip": {
-        "msResolution": false,
-        "shared": false,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ops",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "InfluxDB",
-      "editable": true,
-      "error": false,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "grid": {},
-      "gridPos": {
-        "h": 7,
-        "w": 24,
-        "x": 0,
-        "y": 33
+        "y": 61
       },
       "height": "",
       "hiddenSeries": false,
@@ -1792,7 +1332,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 40
+        "y": 68
       },
       "height": "",
       "hiddenSeries": false,
@@ -1977,7 +1517,10 @@
       }
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+        "ErrorTPS": "#bf1b00",
+        "SuccessTPS": "#508642"
+      },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -1997,11 +1540,11 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 47
+        "y": 75
       },
       "height": "",
       "hiddenSeries": false,
-      "id": 29,
+      "id": 38,
       "interval": "$granularity",
       "legend": {
         "alignAsTable": true,
@@ -2012,6 +1555,8 @@
         "min": true,
         "rightSide": true,
         "show": true,
+        "sort": "current",
+        "sortDesc": true,
         "total": false,
         "values": true
       },
@@ -2019,7 +1564,7 @@
       "linewidth": 1,
       "links": [],
       "maxPerRow": 1,
-      "nullPointMode": "null",
+      "nullPointMode": "null as zero",
       "options": {
         "dataLinks": []
       },
@@ -2038,7 +1583,234 @@
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
-      "steppedLine": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "ErrorTPS",
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "30s"
+              ],
+              "type": "time"
+            }
+          ],
+          "hide": false,
+          "measurement": "jmeter",
+          "orderByTime": "ASC",
+          "policy": "$retention",
+          "query": "SELECT mean(\"count\")  / 5 FROM \"jmeter\" WHERE \"application\" =~ /$app$/ AND \"transaction\" <> 'all' AND $timeFilter GROUP BY time($granularity), \"transaction\"",
+          "rawQuery": false,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              },
+              {
+                "params": [
+                  " / 30"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "application",
+              "operator": "=~",
+              "value": "/$app$/"
+            },
+            {
+              "condition": "AND",
+              "key": "transaction",
+              "operator": "<>",
+              "value": "all"
+            },
+            {
+              "condition": "AND",
+              "key": "statut",
+              "operator": "=",
+              "value": "ko"
+            }
+          ]
+        },
+        {
+          "alias": "SuccessTPS",
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "30s"
+              ],
+              "type": "time"
+            }
+          ],
+          "hide": false,
+          "measurement": "jmeter",
+          "orderByTime": "ASC",
+          "policy": "$retention",
+          "query": "SELECT mean(\"count\")  / 5 FROM \"jmeter\" WHERE \"application\" =~ /$app$/ AND \"transaction\" <> 'all' AND $timeFilter GROUP BY time($granularity), \"transaction\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              },
+              {
+                "params": [
+                  " / 30"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "application",
+              "operator": "=~",
+              "value": "/$app$/"
+            },
+            {
+              "condition": "AND",
+              "key": "transaction",
+              "operator": "<>",
+              "value": "all"
+            },
+            {
+              "condition": "AND",
+              "key": "statut",
+              "operator": "=",
+              "value": "ok"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Success/Error Throughput",
+      "tooltip": {
+        "msResolution": false,
+        "shared": false,
+        "sort": 0,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ops",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "InfluxDB",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 82
+      },
+      "height": "",
+      "hiddenSeries": false,
+      "id": 29,
+      "interval": "$granularity",
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "maxPerRow": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": true,
+      "renderer": "flot",
+      "scopedVars": {
+        "app": {
+          "isNone": true,
+          "selected": true,
+          "text": "None",
+          "value": ""
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
           "alias": "$tag_transaction",
@@ -2164,10 +1936,10 @@
       "fillGradient": 0,
       "grid": {},
       "gridPos": {
-        "h": 7,
+        "h": 14,
         "w": 24,
         "x": 0,
-        "y": 54
+        "y": 93
       },
       "height": "",
       "hiddenSeries": false,
@@ -2176,11 +1948,11 @@
       "legend": {
         "alignAsTable": true,
         "avg": true,
-        "current": true,
+        "current": false,
         "hideEmpty": true,
         "hideZero": true,
         "max": true,
-        "min": true,
+        "min": false,
         "rightSide": true,
         "show": true,
         "sort": "max",
@@ -2197,8 +1969,8 @@
         "dataLinks": []
       },
       "percentage": false,
-      "pointradius": 5,
-      "points": false,
+      "pointradius": 2,
+      "points": true,
       "renderer": "flot",
       "scopedVars": {
         "app": {
@@ -2211,7 +1983,7 @@
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
-      "steppedLine": true,
+      "steppedLine": false,
       "targets": [
         {
           "alias": "$tag_transaction - $tag_responseCode : $tag_responseMessage",
@@ -2332,7 +2104,7 @@
       }
     }
   ],
-  "refresh": false,
+  "refresh": "10s",
   "schemaVersion": 25,
   "style": "dark",
   "tags": [],
@@ -2341,7 +2113,7 @@
       {
         "allValue": ".*",
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "None",
           "value": [
             ""
@@ -2372,9 +2144,9 @@
         "auto_count": 10,
         "auto_min": "10s",
         "current": {
-          "selected": false,
-          "text": "5m",
-          "value": "5m"
+          "selected": true,
+          "text": "1m",
+          "value": "1m"
         },
         "datasource": "jmeterdb",
         "hide": 0,
@@ -2385,12 +2157,12 @@
         "name": "granularity",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "1m",
             "value": "1m"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "5m",
             "value": "5m"
           },
@@ -2416,6 +2188,7 @@
           }
         ],
         "query": "1m,5m,1h,5s,15s,30s",
+        "queryValue": "",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -2450,7 +2223,7 @@
       {
         "allValue": ".*",
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "All",
           "value": [
             "$__all"
@@ -2497,8 +2270,8 @@
     ]
   },
   "time": {
-    "from": "2020-06-29T00:29:57.917Z",
-    "to": "2020-06-29T00:40:35.051Z"
+    "from": "now-30m",
+    "to": "now"
   },
   "timepicker": {
     "now": true,
@@ -2528,5 +2301,5 @@
   "timezone": "browser",
   "title": "JMeter Metric",
   "uid": "_HtgMQgmk",
-  "version": 4
+  "version": 17
 }

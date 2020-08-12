@@ -16,8 +16,8 @@
   "editable": true,
   "gnetId": 11159,
   "graphTooltip": 0,
-  "id": 19,
-  "iteration": 1594603094323,
+  "id": 18,
+  "iteration": 1597221320976,
   "links": [],
   "panels": [
     {
@@ -70,7 +70,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(process_cpu_user_seconds_total{namespace=\"$namespace\",pod_name=\"$pod\"}[2m]) * 100",
+          "expr": "irate(process_cpu_user_seconds_total{namespace=~\"$namespace.*\",pod_name=~\"$pod.*\"}[1m]) * 100",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -78,7 +78,7 @@
           "refId": "A"
         },
         {
-          "expr": "irate(process_cpu_system_seconds_total{namespace=\"$namespace\",pod_name=\"$pod\"}[2m]) * 100",
+          "expr": "irate(process_cpu_system_seconds_total{namespace=~\"$namespace.*\",pod_name=~\"$pod.*\"}[1m]) * 100",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -177,7 +177,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "nodejs_eventloop_lag_seconds{namespace=\"$namespace\",pod_name=\"$pod\"}",
+          "expr": "nodejs_eventloop_lag_seconds{namespace=~\"$namespace.*\",pod_name=~\"$pod.*\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -458,7 +458,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "process_resident_memory_bytes{namespace=\"$namespace\",pod_name=\"$pod\"}",
+          "expr": "process_resident_memory_bytes{namespace=~\"$namespace.*\",pod_name=~\"$pod.*\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -466,7 +466,7 @@
           "refId": "A"
         },
         {
-          "expr": "nodejs_heap_size_total_bytes{namespace=\"$namespace\",pod_name=\"$pod\"}",
+          "expr": "nodejs_heap_size_total_bytes{namespace=~\"$namespace.*\",pod_name=~\"$pod.*\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -474,7 +474,7 @@
           "refId": "B"
         },
         {
-          "expr": "nodejs_heap_size_used_bytes{namespace=\"$namespace\",pod_name=\"$pod\"}",
+          "expr": "nodejs_heap_size_used_bytes{namespace=~\"$namespace.*\",pod_name=~\"$pod.*\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -580,7 +580,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "nodejs_active_handles_total{namespace=\"$namespace\",pod_name=\"$pod\"}",
+          "expr": "nodejs_active_handles_total{namespace=~\"$namespace.*\",pod_name=~\"$pod.*\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -588,7 +588,7 @@
           "refId": "A"
         },
         {
-          "expr": "nodejs_active_requests_total{namespace=\"$namespace\",pod_name=\"$pod\"}",
+          "expr": "nodejs_active_requests_total{namespace=~\"$namespace.*\",pod_name=~\"$pod.*\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -649,7 +649,6 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "tags": [],
           "text": "All",
           "value": [
             "$__all"
@@ -677,12 +676,9 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
-          "tags": [],
-          "text": "front-end-5d5f5c6c8-thcts",
-          "value": [
-            "front-end-5d5f5c6c8-thcts"
-          ]
+          "selected": false,
+          "text": "front-end-85bb7b97b8-rqt25",
+          "value": "front-end-85bb7b97b8-rqt25"
         },
         "datasource": "Prometheus",
         "definition": "label_values(nodejs_active_handles_total{namespace=\"$namespace\"},pod_name)",
@@ -706,7 +702,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
@@ -736,5 +732,5 @@
   "timezone": "",
   "title": "NodeJS Application Dashboard",
   "uid": "PTSqcpJWk",
-  "version": 12
+  "version": 5
 }
