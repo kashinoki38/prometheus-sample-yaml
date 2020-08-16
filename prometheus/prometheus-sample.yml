@@ -242,3 +242,191 @@ scrape_configs:
           aciton: keep
         - source_labels: [__meta_kubernetes_pod_container_name]
           target_label: job
+
+# recording rule sample
+# import rules.yml
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+rule_files:
+  - rules.yml
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+        - localhost:9090
+  - job_name: node
+    static_configs:
+      - targets:
+        - localhost:9100
+
+# sample of rules.yml
+groups:
+  - name: example
+    rules:
+      - record: job:process_cpu_seconds:rate5m
+        expr: sum without(instance)(rate(process_cpu_seconds_total[5m]))
+      - record: job:process_open_fds:max
+        expr: max without(instance)(process_open_fds)
+
+# sample of alert #1
+groups:
+  - name: node_rules
+    rules:
+      - record: job:up:avg
+        expr: avg without(instance)(up{job="node"})
+      - alert: ManyInstancesDown
+        expr: job:up:avg{job="node"} < 0.5
+
+# sample of alert #2
+# select time range
+      - alert: ManyInstancesDown
+        expr: >
+        (
+          avg without(instance)(up{job="node"}) < 0.5
+          and on() hour() > 9 < 17
+        )
+
+# sample of alert #3
+# label
+      - alert: InstanceDown
+        expr: up{job="node"} == 0
+        for: 1h
+        labels:
+          serverity: ticket
+      - alert: ManyInstancesDown
+        expr: job:up:avg{job="node"} < 0.5
+        for: 5m
+        labels:
+          serverity: page
+
+# sample of alert #4
+# annotation #1
+      - alert: ManyInstancesDown
+        for: 5m
+        expr: avg without(instance)(up{job="node"}) * 100 < 50
+        labels:
+          serverity: page
+        annotations:
+          summary: 'Only {{printf "%.2f" $value}}% of instances are up.'
+
+# sample of alert #5
+# annotation #2
+      - alert: ManyInstancesDown
+        for: 5m
+        expr: avg without(instance)(up{job="node"}) * 100 < 50
+        labels:
+          serverity: page
+        annotations:
+          summary: 'More than half of instances are down.'
+          description: >
+          Down instances: {{ range query "up{job=\"node\"} == 0" }}
+            {{ .Labels.instance }}
+          {{ end }}
+
+# sample of alert #6
+# configuration of Alertmanager
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+alerting:
+  alertmanagers:
+    - static_configs:
+        -targets: ['localhost:9093']
+  alert_relabel_configs:
+    - source_labels: [severity]
+      regex: info
+      action: drop
+rule_files:
+  - rules.yml
+
+# sample of alert #7
+# external label
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+  external_labels:
+    region: eu-west-1
+    env: prod
+    team: frontend
+alerting:
+  alertmanagers:
+    - static_configs:
+        -targets: ['localhost:9093']
+
+# samle of alert #8
+# configuration of alertmanager.yml
+global:
+  smtp_smarthost: 'localhost:25'
+  smtp_from: 'youraddress@example.org'
+
+route:
+  receiver: example-email
+  routes:
+    - match:
+        severity: page
+      receiver: team-pager
+      continue: true
+    - match_re:
+        severity: (ticket|issue|email)
+      group_by: [region, env, alertname]
+      receiver: team-ticket
+
+
+receivers:
+  - name: example-email
+    email_configs:
+      - to: 'youraddress@example.org'
+
+# sample alert #9
+# configuration of alertmanger.yml
+# throttling
+
+route:
+  receiver: fallback-pager
+  group_by: [team]
+  routes:
+    # frontend team
+    - match:
+        team: frontend
+      group_by: [region, env]
+      group_interval: 10m
+      receiver: frontend-pager
+      routes:
+        - match:
+            severity: page
+          receiver: frontend-pager
+          group_wait: 1m
+        - match:
+            severity: ticket
+          receiver: frontend-ticket
+          group_by: [region, env, alertname]
+          group_interval: 1d
+          repead_interval: 1d
+
+
+# sample federation
+scrape_configs:
+  - job_name: 'federate'
+    honor_labels: true
+    metrics_path: '/federate'
+    params:
+      'match[]':
+        - '{__name__=~"job:.*"}'
+    static_configs:
+      - targets:
+        - 'prometheus-dublin:9090'
+        - 'prometheus-berlin:9090'
+        - 'prometheus-new-york:9090'
+
+# sample of hashmod
+scrape_configs:
+  - job_name: my_job
+  relabel_configs:
+    - source_labels: [__address__]
+      modulus: 10
+      target_labels: __tmp_hash
+      action: hashmod
+    - source_labels: [__tmp_hash]
+      regex: 0
+      action: keep
