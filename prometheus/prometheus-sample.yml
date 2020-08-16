@@ -1,0 +1,244 @@
+# static config
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+        - localhost:9090
+
+# file_sd
+scrape_configs:
+  - job_name: file
+    file_sd_configs:
+      - files:
+        - '*.json'
+
+# EC2_sd
+scrape_configs:
+  - job_name: ec2
+    ec2_sc_configs:
+      - region: <region>
+        access_key: <access key>
+        secret_key: <secret key>
+
+# relabel sample keep
+# target include team="infra" or team="monitoring" will be remained
+scrape_configs:
+  - job_name: file
+    file_sd_configs:
+      - files:
+        - '*.json'
+    relabel_configs:
+      - source_labels: [team]
+        regex: infra|monitoring
+        action: keep
+
+# relabel sample replace #1
+# team="monitoring"->"team="monitor"
+scrape_configs:
+  - job_name: file
+    file_sd_configs:
+      - files:
+        - '*.json'
+    relabel_configs:
+      - source_labels: [team]
+        regex: monitoring
+        replacement: monitor
+        target_label: team
+        action: replace
+
+# relabel sample replace #2
+# excluding end of "ing" from team label
+scrape_configs:
+  - job_name: file
+    file_sd_configs:
+      - files:
+        - '*.json'
+    relabel_configs:
+      - source_labels: [team]
+        regex: '(.*)ing'
+        replacement: '${1}'
+        target_label: team
+        action: replace
+
+# relabel sample replase #3
+# excluding label
+scrape_configs:
+  - job_name: file
+    file_sd_configs:
+      - files:
+        - '*.json'
+    relabel_configs:
+      - source_labels:
+        target_label: team
+
+# relabel sample replace #4
+# modify port
+scrape_configs:
+  - job_name: file
+    consul_sd_configs:
+      - server: 'localhost:8500'
+    relabel_configs:
+      - source_labels: [__meta_consul_address]
+        regex: '(.*)'
+        replacement: '${1}:9100'
+        target_label: __address__
+        
+
+# extract only env tag from meta consul tags
+scrape_configs:
+  - job_name: file
+    consul_sd_configs:
+      - server: 'localhost:8500'
+    relabel_configs:
+      - source_labels: [__meta_consul_tags]
+        regex: '.*,(prod|staging|dev),.*'
+        target_label: env
+
+# labelmap sample
+# 1. use "service" of ec2 tag to "job" tag.
+# 2. use "monitor_foo" of ec2 tag to "foo" tag
+scrape_configs:
+  - job_name: file
+    ec2_sc_configs:
+      - region: <region>
+        access_key: <access key>
+        secret_key: <secret key>
+    relabel_configs:
+      - source_labels: [__meta_ec2_tag_service]
+        target_label: job
+      - regex: __meta_ec2_tag_monitor_(.*)
+        replacement: '${1}'
+        action: labelmap
+
+# scrape configuration
+scrape_configs:
+  - job_name: file
+    consul_sd_configs:
+      - server: 'localhost:8500'
+    scrape_timeout: 5s
+    metrics_path: /admin/metrics
+    params:
+      foo: [bar]
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
+    basic_auth:
+      username: brian
+      password: hunter2
+
+# metric_relabel_configs
+# removing prometheus_http_response_size_bytes metric
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+        - localhost:9090
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: prometheus_http_response_size_bytes
+        action: drop
+
+# metric_relabel_configs
+# removing a part of bucket
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+        - localhost:9090
+    metric_relabel_configs:
+      - source_labels: [__name__, le]
+        regex: 'prometheus_tsdb_compaction_duration_seconds_bucket;(4|32|256)'
+        action: drop
+
+# metric_relabel_configs
+# labeldrop node_.*
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+        - localhost:9090
+    metric_relabel_configs:
+      - regex: 'node_.*'
+        action: labeldrop
+        
+# Kuberentes sample for node
+# scrape kubelet
+scrape_configs:
+  - job_name: 'kubelet'
+    kubernetes_sd_configs:
+      - role: node
+    scheme: https
+    tls_config:
+      ca_files: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+
+# Kubernetes sample for endpoints #1
+# scrape kube-apiserver
+# only for "default namespace, kubernetes service, https port"
+scrape_configs:
+  - job_name: 'k8apiserver'
+    kubernetes_sd_configs:
+      - role: endpoints
+    scheme: https
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    relabel_configs:
+      - source_labels:
+        - __meta_kubernetes_namespace
+        - __meta_kubernetes_service_name
+        - __meta_kubernetes_endpoint_port_name
+        action: keep
+        regiex: default;kubernetes;https
+
+# Kubernetes sample for endpoints #2
+# scrape all pod connected to all of service in default namespace without kube-apiserver
+# using kubernetes service name for job label
+scrape_configs:
+  - job_name: 'k8services'
+    kubernetes_sd_configs:
+      - role: endpoints
+      relabel_configs:
+        - source_labels:
+          - __meta_kubernetes_namespace
+          - __meta_kubernetes_service_name
+          regex: default;kubernetes
+          action: drop
+        - source_labels:
+          - __meta_kubernetes_namespace
+          regex: default
+          aciton: keep
+        - source_labels: [__meta_kubernetes_service_name]
+          target_label: job
+
+# Kubernetes sample for endpoints #3
+# relabel by using annotation
+scrape_configs:
+  - job_name: 'k8services'
+    kubernetes_sd_configs:
+      - role: endpoints
+      relabel_configs:
+        - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+          regex: (.+)
+          target_label: __scheme__
+        - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+          regex: (.+)
+          target_label: __metrics_path__
+        - source_labels:
+          - __address__
+          - __meta_kubernetes_service_annotation_prometheus_io_port
+          regex: ([^:]+)(:\d+)?;(\d+)
+          replacement: ${1}:${3}
+          target_label: __address__
+
+# Kubernetes sample for pod
+# looking up port whose name is "metrics", using job label as container name
+scrape_configs:
+  - job_name: 'k8services'
+    kubernetes_sd_configs:
+      - role: pod
+      relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_container_port_name]
+          regex: metrics
+          aciton: keep
+        - source_labels: [__meta_kubernetes_pod_container_name]
+          target_label: job
