@@ -16,8 +16,8 @@
   "editable": true,
   "gnetId": 6671,
   "graphTooltip": 0,
-  "id": 17,
-  "iteration": 1594603401467,
+  "id": 6,
+  "iteration": 1598201434467,
   "links": [],
   "panels": [
     {
@@ -81,6 +81,7 @@
         {
           "expr": "process_resident_memory_bytes{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{pod_name}} - resident",
           "metric": "process_resident_memory_bytes",
@@ -794,6 +795,7 @@
         {
           "expr": "go_goroutines{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{pod_name}}",
           "metric": "go_goroutines",
@@ -896,8 +898,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "go_gc_duration_seconds{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}",
+          "expr": "rate(go_gc_duration_seconds_sum{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}[1m])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{pod_name}}: {{quantile}}",
           "metric": "go_gc_duration_seconds",
@@ -946,6 +949,111 @@
         "align": false,
         "alignLevel": null
       }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 29
+      },
+      "hiddenSeries": false,
+      "id": 9,
+      "isNew": true,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(go_gc_duration_seconds_count{namespace=~\"^($namespace)$\",pod_name=~\"^($pod)$\"}[1m])",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "{{pod_name}}: {{quantile}}",
+          "metric": "go_gc_duration_seconds",
+          "refId": "A",
+          "step": 4
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "GC Counts",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 0,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
   ],
   "refresh": "30s",
@@ -957,10 +1065,11 @@
       {
         "allValue": ".*",
         "current": {
-          "selected": false,
-          "text": "sock-shop",
+          "selected": true,
+          "tags": [],
+          "text": "All",
           "value": [
-            "sock-shop"
+            "$__all"
           ]
         },
         "datasource": "Prometheus",
@@ -985,12 +1094,9 @@
       {
         "allValue": ".*",
         "current": {
-          "selected": true,
-          "tags": [],
+          "selected": false,
           "text": "All",
-          "value": [
-            "$__all"
-          ]
+          "value": "$__all"
         },
         "datasource": "Prometheus",
         "definition": "label_values(process_resident_memory_bytes{namespace=\"$namespace\"}, pod_name)",
@@ -1017,8 +1123,8 @@
         "auto_min": "10s",
         "current": {
           "selected": false,
-          "text": "5m",
-          "value": "5m"
+          "text": "1m",
+          "value": "1m"
         },
         "datasource": null,
         "hide": 0,
@@ -1028,12 +1134,12 @@
         "name": "interval",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "1m",
             "value": "1m"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "5m",
             "value": "5m"
           },
@@ -1054,6 +1160,7 @@
           }
         ],
         "query": "1m,5m,10m,30m,1h",
+        "queryValue": "",
         "refresh": 2,
         "skipUrlSync": false,
         "type": "interval"
@@ -1091,5 +1198,5 @@
   "timezone": "browser",
   "title": "Go Processes",
   "uid": "ypFZFgvmz",
-  "version": 5
+  "version": 7
 }
